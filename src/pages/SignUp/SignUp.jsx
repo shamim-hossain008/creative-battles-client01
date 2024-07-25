@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
@@ -10,23 +11,32 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = useForm();
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    createUser(data.email, data.password).then((result) => {
-      const loggedUser = result.user;
-      console.log(loggedUser);
-
-      // updateUserProfile(data.name, data.photoURL).then((res) => {
-      //   // create user entry in the database
-      //   const userInfo = {
-      //     name: data.name,
-      //     email: data.email,
-      //   };
-      // });
+    createUser(data.email, data.password).then((res) => {
+      const loggedUser = res.user;
+      console.log("logged user", loggedUser);
+      updateUserProfile(data?.name, data?.photoURL).then((res) => {
+        // create user entry in the data base
+        const userInfo = {
+          name: data?.name,
+          email: data?.email,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            console.log("user added to the database");
+            reset();
+            toast.success("User created successfully");
+            navigate("/");
+          }
+        });
+      });
     });
   };
 
