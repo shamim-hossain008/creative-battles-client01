@@ -12,7 +12,7 @@ const Footer = () => {
                   <img className="w-auto h-16 bg-base-50" src={logo} alt="" />
                 </a>
 
-                <p className="max-w-sm mt-2 ">
+                <p className="max-w-sm mt-2 text-[#37c5bd]">
                   Join 31,000+ other and never miss out on new tips, tutorials,
                   and more.
                 </p>
@@ -123,7 +123,9 @@ const Footer = () => {
           <hr className="h-px my-6 bg-slate-400 border-none " />
 
           <div>
-            <p className="text-center ">© Brand 2024 - All rights reserved</p>
+            <p className="text-center text-[#37c5bd]">
+              © Creative-Battles 2024 - All rights reserved
+            </p>
           </div>
         </div>
       </footer>
