@@ -1,4 +1,6 @@
 import { Helmet } from "react-helmet";
+import Advertises from "../../../Components/Advertises";
+import PopularContest from "../../../Components/PopularContest";
 import Banner from "../Banner/Banner";
 
 const Home = () => {
@@ -8,7 +10,9 @@ const Home = () => {
         <title>Creative-Battles | Home</title>
       </Helmet>
       <h2>This is Home</h2>
-      <Banner/>
+      <Banner />
+      <PopularContest />
+      <Advertises />
     </div>
   );
 };
