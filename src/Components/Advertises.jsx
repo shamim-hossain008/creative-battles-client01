@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import img2 from "../assets/developers-1.png";
 
@@ -12,7 +11,7 @@ const Advertises = () => {
         <p> Be Part of the Challenge and Win Amazing Prizes!</p>
       </div>
       <div className="divider mx-96"></div>
-      <div className="flex justify-around">
+      <div className="flex-1 md:flex justify-around p-4">
         <div className="font-bold">
           <h2 className="text-xl">Current Contest Winner:</h2>
           <p>Name:</p>

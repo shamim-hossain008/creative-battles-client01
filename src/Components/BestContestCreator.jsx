@@ -12,14 +12,14 @@ import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
 
 const BestContestCreator = () => {
   return (
-    <div>
+    <div className="p-4">
       <div className="text-center p-2">
         <h2 className="text-3xl text-[#37c5bd] font-bold">
           🌟 Top Contest Creators 🌟{" "}
         </h2>
         <p>Celebrating Creativity and Innovation</p>
       </div>
-      <div className="flex justify-around">
+      <div className="flex-1 md:flex justify-around">
         <div>
           {/* box-1 text */}
           <h2 className="text-2xl fond-bold">Meet Our Star Creators:</h2>
@@ -57,7 +57,7 @@ const BestContestCreator = () => {
           </ul>
         </div>
         {/* box-2 Slider */}
-        <div className="w-1/3">
+        <div className="md:w-1/3 h-auto pt-4">
           <Swiper
             effect={"coverflow"}
             grabCursor={true}

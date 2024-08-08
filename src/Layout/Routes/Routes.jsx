@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
+import ViewDetails from "../../Components/ViewDetails";
+import AllContestPage from "../../pages/AllContestPage/AllContestPage";
 import Home from "../../pages/Home/Home/Home";
 import Login from "../../pages/Login/Login";
 import SignUp from "../../pages/SignUp/SignUp";
@@ -22,6 +24,14 @@ export const router = createBrowserRouter([
       {
         path: "/signUp",
         element: <SignUp />,
+      },
+      {
+        path: "/allContests",
+        element: <AllContestPage />,
+      },
+      {
+        path: "/viewDetails",
+        element: <ViewDetails />,
       },
     ],
   },

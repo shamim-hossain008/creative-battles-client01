@@ -1,6 +1,7 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
-const PopularContest = () => {
+const AllContestPage = () => {
   return (
     <div className="p-2">
       <h2 className="text-2xl uppercase font-bold text-center p-4 text-[#37c5bd]">
@@ -34,4 +35,4 @@ const PopularContest = () => {
   );
 };
 
-export default PopularContest;
+export default AllContestPage;
