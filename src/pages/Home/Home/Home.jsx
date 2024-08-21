@@ -10,7 +10,7 @@ const Home = () => {
       <Helmet>
         <title>Creative-Battles | Home</title>
       </Helmet>
-      <h2>This is Home</h2>
+
       <Banner />
       <PopularContest />
       <Advertises />
