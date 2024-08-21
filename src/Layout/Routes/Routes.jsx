@@ -5,6 +5,7 @@ import AllContestPage from "../../pages/AllContestPage/AllContestPage";
 import Home from "../../pages/Home/Home/Home";
 import Login from "../../pages/Login/Login";
 import SignUp from "../../pages/SignUp/SignUp";
+import Dashboard from "../Dashboard";
 import MainLayout from "../MainLayout";
 
 export const router = createBrowserRouter([
@@ -34,5 +35,9 @@ export const router = createBrowserRouter([
         element: <ViewDetails />,
       },
     ],
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
   },
 ]);

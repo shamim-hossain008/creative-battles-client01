@@ -20,6 +20,9 @@ const NavBar = () => {
       <li>
         <NavLink to="/allContests">All Contests</NavLink>
       </li>
+      <li>
+        <NavLink to="/dashboard">Dashboard</NavLink>
+      </li>
     </>
   );
 
