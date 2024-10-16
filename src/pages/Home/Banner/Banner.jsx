@@ -20,7 +20,7 @@ const Banner = () => {
             field with Creative Battles.
           </p>
 
-          <div className="max-w-2xl mx-auto input input-bordered flex items-center gap-2">
+          <div className="max-w-2xl mx-auto input input-bordered flex items-center text-black gap-2">
             <input type="text" className="grow" placeholder="Search" />
             <CiSearch className="size-8" />
           </div>

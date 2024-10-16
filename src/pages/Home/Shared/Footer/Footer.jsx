@@ -1,4 +1,4 @@
-import logo from "../../../../assets/logo.png";
+import { SiBattledotnet } from "react-icons/si";
 
 const Footer = () => {
   return (
@@ -9,7 +9,7 @@ const Footer = () => {
             <div className="w-full -mx-6 lg:w-2/5">
               <div className="px-6">
                 <a href="#">
-                  <img className="w-auto h-16 bg-base-50" src={logo} alt="" />
+                  <SiBattledotnet className="size-6 md:size-12" />
                 </a>
 
                 <p className="max-w-sm mt-2 text-[#37c5bd]">
