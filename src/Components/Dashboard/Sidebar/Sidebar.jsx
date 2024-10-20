@@ -10,13 +10,13 @@ const Sidebar = () => {
           {/* Admin Dashboard */}
 
           <li>
-            <NavLink to="/">
+            <NavLink to="manage-user">
               <GrUserManager />
               Manage User
             </NavLink>
           </li>
           <li>
-            <NavLink to="/">
+            <NavLink to="manage-contest">
               <FaUserEdit />
               Manage Contests
             </NavLink>

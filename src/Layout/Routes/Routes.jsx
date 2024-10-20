@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 
 import ViewDetails from "../../Components/ViewDetails";
 import AllContestPage from "../../pages/AllContestPage/AllContestPage";
+import ManageContest from "../../pages/Dashboard/Admin/ManageContest";
+import ManageUser from "../../pages/Dashboard/Admin/ManageUser";
 import Statistics from "../../pages/Dashboard/Common/Statistics";
 import MyParticipatedContest from "../../pages/Dashboard/User/MyParticipatedContest";
 import MyProfile from "../../pages/Dashboard/User/MyProfile";
@@ -49,6 +51,7 @@ export const router = createBrowserRouter([
         index: true,
         element: <Statistics />,
       },
+      // user routes
 
       {
         path: "my-participated-contest",
@@ -61,6 +64,16 @@ export const router = createBrowserRouter([
       {
         path: "my-profile",
         element: <MyProfile />,
+      },
+
+      // Admin Only Routes
+      {
+        path: "manage-user",
+        element: <ManageUser />,
+      },
+      {
+        path: "manage-contest",
+        element: <ManageContest />,
       },
     ],
   },
