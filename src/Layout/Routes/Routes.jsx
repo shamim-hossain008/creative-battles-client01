@@ -5,6 +5,9 @@ import AllContestPage from "../../pages/AllContestPage/AllContestPage";
 import ManageContest from "../../pages/Dashboard/Admin/ManageContest";
 import ManageUser from "../../pages/Dashboard/Admin/ManageUser";
 import Statistics from "../../pages/Dashboard/Common/Statistics";
+import AddContest from "../../pages/Dashboard/Creator/AddContest";
+import ContestSubmitted from "../../pages/Dashboard/Creator/ContestSubmitted";
+import MyCreatedContest from "../../pages/Dashboard/Creator/MyCreatedContest";
 import MyParticipatedContest from "../../pages/Dashboard/User/MyParticipatedContest";
 import MyProfile from "../../pages/Dashboard/User/MyProfile";
 import MyWinningContestPage from "../../pages/Dashboard/User/MyWinningContestPage";
@@ -74,6 +77,20 @@ export const router = createBrowserRouter([
       {
         path: "manage-contest",
         element: <ManageContest />,
+
+        // Creator Dashboard
+      },
+      {
+        path: "add-contest",
+        element: <AddContest />,
+      },
+      {
+        path: "my-created-contest",
+        element: <MyCreatedContest />,
+      },
+      {
+        path: "contest-submitted",
+        element: <ContestSubmitted />,
       },
     ],
   },
