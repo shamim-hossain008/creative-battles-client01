@@ -33,7 +33,7 @@ const Sidebar = () => {
         <li>
           <NavLink to="my-created-contest">
             <IoCreateOutline />
-            Add Contest
+            My Created Contest
           </NavLink>
         </li>
         <li>
