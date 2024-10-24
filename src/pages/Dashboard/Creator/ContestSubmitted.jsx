@@ -7,5 +7,4 @@ const ContestSubmitted = () => {
     </div>
   );
 };
-
 export default ContestSubmitted;

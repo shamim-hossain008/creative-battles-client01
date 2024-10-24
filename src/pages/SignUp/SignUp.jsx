@@ -19,13 +19,14 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    createUser(data.email, data.password).then((res) => {
-      const loggedUser = res.user;
+    createUser(data?.email, data?.password, data?.photoURL).then((res) => {
+      const loggedUser = res?.user;
       console.log("logged user", loggedUser);
       updateUserProfile(data?.name, data?.photoURL).then((res) => {
         // create user entry in the data base
         const userInfo = {
           name: data?.name,
+          image: data?.photoURL,
           email: data?.email,
         };
         axiosPublic.post("/users", userInfo).then((res) => {

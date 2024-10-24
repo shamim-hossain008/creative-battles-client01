@@ -23,9 +23,8 @@ const Dashboard = () => {
       </div>
 
       {/* Outlet --- Dynamic content */}
-      <div className=" flex-1 md:ml-10 bg-green-400">
+      <div className=" flex-1 md:ml-10">
         <div className="p-4">
-          <h4>Outlet</h4>
           <Outlet />
         </div>
       </div>

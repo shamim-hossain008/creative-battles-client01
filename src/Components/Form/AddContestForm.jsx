@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
 
-const AddContestForm = () => {
+import "react-datepicker/dist/react-datepicker.css";
+
+const AddContestForm = ({ handleAddContest }) => {
+  const [startDate, setStartDate] = useState(new Date());
+
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
-      <form>
+      <form onSubmit={handleAddContest}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="space-y-6">
             <div className="space-y-1 text-sm">
@@ -22,26 +27,24 @@ const AddContestForm = () => {
 
             <div className="space-y-1 text-sm">
               <label htmlFor="category" className="block text-gray-600">
-                Category
-              </label>
-              {/* <select
-                required
-                className="w-full px-4 py-3 border-rose-300 focus:outline-rose-500 rounded-md"
-                name="category"
-              >
-                {categories.map((category) => (
-                  <option value={category.label} key={category.label}>
-                    {category.label}
-                  </option>
-                ))}
-              </select> */}
-            </div>
-
-            <div className="space-y-1">
-              <label htmlFor="category" className="block text-gray-600">
                 Contest Type
               </label>
-              {/* Calender */}
+              <select
+                required
+                className="w-full px-4 py-3 border-blue-300 focus:outline-blue-500 rounded-md"
+                name="category"
+              >
+                <option disabled selected>
+                  Image Design Contests
+                </option>
+                <option>Article Writing</option>
+                <option>Marketing Strategy</option>
+                <option>Digital Advertisement Contests</option>
+                <option>Gaming Review</option>
+                <option>Book Review</option>
+                <option>Business Idea Contests</option>
+                <option>Movie Review</option>
+              </select>
             </div>
           </div>
           <div className="space-y-6">
@@ -93,49 +96,29 @@ const AddContestForm = () => {
                 />
               </div>
 
-              <div className="space-y-1 text-sm">
+              <div className="space-y-1 text-sm text-center">
                 <label htmlFor="deadline" className="block text-gray-600">
                   Contest Deadline
                 </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-blue-300 focus:outline-blue-500 rounded-md "
-                  name="deadline"
-                  id="deadline"
-                  type="number"
-                  placeholder="Contest Deadline"
-                  required
+                <DatePicker
+                  className="text-xl text-center"
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
                 />
               </div>
             </div>
 
-            <div className="flex justify-between gap-2">
-              <div className="space-y-1 text-sm">
-                <label htmlFor="instruction" className="block text-gray-600">
-                  Task Submission text instruction
-                </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500 rounded-md "
-                  name="bedrooms"
-                  id="bedrooms"
-                  type="number"
-                  placeholder="Bedrooms"
-                  required
-                />
-              </div>
-
-              <div className="space-y-1 text-sm">
-                <label htmlFor="bathrooms" className="block text-gray-600">
-                  Bathrooms
-                </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500 rounded-md "
-                  name="bathrooms"
-                  id="bathrooms"
-                  type="number"
-                  placeholder="Bathrooms"
-                  required
-                />
-              </div>
+            <div className="space-y-1 text-sm">
+              <label htmlFor="instruction" className="block text-gray-600">
+                Task Submission text instruction
+              </label>
+              <textarea
+                className="w-full px-4 py-4 text-gray-800 border border-blue-300 focus:outline-blue-500 rounded-md "
+                name="instruction"
+                id="instruction"
+                type="text"
+                required
+              ></textarea>
             </div>
 
             <div className="space-y-1 text-sm">
@@ -145,7 +128,7 @@ const AddContestForm = () => {
 
               <textarea
                 id="description"
-                className="block rounded-md focus:rose-300 w-full h-32 px-4 py-3 text-gray-800  border border-rose-300 focus:outline-rose-500 "
+                className="block rounded-md focus:blue-300 w-full h-32 px-4 py-3 text-gray-800  border border-blue-300 focus:outline-blue-500 "
                 name="description"
               ></textarea>
             </div>
@@ -154,9 +137,9 @@ const AddContestForm = () => {
 
         <button
           type="submit"
-          className="w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-rose-500"
+          className="w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-blue-500"
         >
-          Save & Continue
+          Add Contest
         </button>
       </form>
     </div>
