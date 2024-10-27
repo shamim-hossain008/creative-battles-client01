@@ -46,7 +46,7 @@ const AuthProvider = ({ children }) => {
   // update Profile
   const updateUserProfile = (name, photo) => {
     return updateProfile(auth.currentUser, {
-      displayname: name,
+      displayName: name,
       photoURL: photo,
     });
   };
@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("form auth provider", currentUser);
+      // console.log("form auth provider", currentUser);
       setLoading(false);
     });
     return () => {
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
 
   const authInfo = {
     user,
-    setUser,  
+    setUser,
     loading,
     createUser,
     signIn,

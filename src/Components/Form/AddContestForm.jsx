@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const AddContestForm = ({ handleAddContest }) => {
-  const [startDate, setStartDate] = useState(new Date());
-
+const AddContestForm = ({
+  handleAddContest,
+  startDate,
+  setStartDate,
+  setImagePreview,
+  imagePreview,
+  imageText,
+  handleImage,
+}) => {
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
       <form onSubmit={handleAddContest}>
@@ -62,25 +68,34 @@ const AddContestForm = ({ handleAddContest }) => {
               />
             </div>
 
-            <div className=" p-4 bg-white w-full  m-auto rounded-lg">
+            <div className=" p-4 bg-white w-full  m-auto rounded-lg flex justify-around items-center">
               <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
                 <div className="flex flex-col w-max mx-auto text-center">
                   <label>
                     <input
                       className="text-sm cursor-pointer w-36 hidden"
                       type="file"
+                      onChange={(e) => handleImage(e.target.files[0])}
                       name="image"
                       id="image"
                       accept="image/*"
                       hidden
                     />
                     <div className="bg-blue-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-blue-500">
-                      Upload Image
+                      {imageText.length > 20
+                        ? imageText.split(".")[0].slice(0, 15) +
+                          ".." +
+                          imageText.split(".")[1]
+                        : imageText}
                     </div>
                   </label>
                 </div>
               </div>
+              <div className="h-16 w-16 object-cover overflow-hidden flex items-center">
+                {imagePreview && <img src={imagePreview} />}
+              </div>
             </div>
+
             <div className="flex justify-between gap-2">
               <div className="space-y-1 text-sm">
                 <label htmlFor="prize" className="block text-gray-600">
@@ -90,7 +105,7 @@ const AddContestForm = ({ handleAddContest }) => {
                   className="w-full px-4 py-3 text-gray-800 border border-blue-300 focus:outline-blue-500 rounded-md "
                   name="prize"
                   id="prize"
-                  type="number"
+                  type="text"
                   placeholder="Prize Money or Others"
                   required
                 />
@@ -104,6 +119,8 @@ const AddContestForm = ({ handleAddContest }) => {
                   className="text-xl text-center"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
+                  dateFormat={"dd/MM/yyy"}
+                  minDate={new Date()}
                 />
               </div>
             </div>
@@ -130,6 +147,7 @@ const AddContestForm = ({ handleAddContest }) => {
                 id="description"
                 className="block rounded-md focus:blue-300 w-full h-32 px-4 py-3 text-gray-800  border border-blue-300 focus:outline-blue-500 "
                 name="description"
+                required
               ></textarea>
             </div>
           </div>

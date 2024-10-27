@@ -19,13 +19,14 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    createUser(data?.email, data?.password, data?.photoURL).then((res) => {
+    createUser(data?.email, data?.password).then((res) => {
       const loggedUser = res?.user;
       console.log("logged user", loggedUser);
-      updateUserProfile(data?.name, data?.photoURL).then((res) => {
+
+      updateUserProfile(data?.displayName, data?.photoURL).then((res) => {
         // create user entry in the data base
         const userInfo = {
-          name: data?.name,
+          name: data?.displayName,
           image: data?.photoURL,
           email: data?.email,
         };
@@ -193,7 +194,7 @@ const SignUp = () => {
                 <input
                   {...register("photoURL", { required: true })}
                   className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
-                  type="photoURL"
+                  type="url"
                   name="photoURL"
                 />
                 {errors.photoURL && (
