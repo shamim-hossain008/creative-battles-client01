@@ -23,8 +23,8 @@ const AddContestForm = ({
               </label>
               <input
                 className="w-full px-4 py-3 text-gray-800 border border-blue-300 focus:outline-blue-500 rounded-md "
-                name="name"
-                id="name"
+                name="contestName"
+                id="contestName"
                 type="text"
                 placeholder="Contest Name"
                 required

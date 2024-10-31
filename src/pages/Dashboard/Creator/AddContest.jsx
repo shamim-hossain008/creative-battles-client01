@@ -3,7 +3,9 @@ import AddContestForm from "../../../Components/Form/AddContestForm";
 import { imageUpload } from "../../../api/utils";
 import useAuth from "../../../hooks/useAuth";
 
+import { useMutation } from "@tanstack/react-query";
 import "react-datepicker/dist/react-datepicker.css";
+import { Helmet } from "react-helmet";
 
 const AddContest = () => {
   const { user } = useAuth();
@@ -15,7 +17,7 @@ const AddContest = () => {
   const handleAddContest = async (e) => {
     e.preventDefault();
     const form = e.target;
-    const name = form.name.value;
+    const contestName = form.contestName.value;
     const category = form.category.value;
     const price = form.price.value;
     const date = startDate;
@@ -35,7 +37,7 @@ const AddContest = () => {
     try {
       const image_url = await imageUpload(image);
       const contestData = {
-        name,
+        contestName,
         category,
         price,
         date,
@@ -46,7 +48,10 @@ const AddContest = () => {
         creator,
       };
 
-      console.table(contestData, "form add Contest page");
+      // console.table(contestData, "form add Contest page");
+
+      // Post Request to server
+      const { mutateAsync } = useMutation({});
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +64,11 @@ const AddContest = () => {
   };
 
   return (
-    <div>
+    <>
+      <Helmet>
+        <title>Add Contest | Dashboard </title>
+      </Helmet>
+      {/* {Form} */}
       <AddContestForm
         handleAddContest={handleAddContest}
         startDate={startDate}
@@ -69,7 +78,7 @@ const AddContest = () => {
         handleImage={handleImage}
         imageText={imageText}
       />
-    </div>
+    </>
   );
 };
 
