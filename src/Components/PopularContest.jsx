@@ -1,14 +1,12 @@
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 const PopularContest = () => {
   return (
-    
-     
-      <div className="p-2">
-        <h2 className="text-2xl uppercase font-bold text-center p-4 text-[#37c5bd]">
-          popular contest section
-        </h2>
+    <div className="p-2  ">
+      <h2 className="text-2xl uppercase font-bold text-center p-4 text-[#37c5bd]">
+        popular contest section
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         <div className="card bg-base-100 w-96 shadow-xl p-2">
           <div>
             <figure>
@@ -34,7 +32,7 @@ const PopularContest = () => {
           </div>
         </div>
       </div>
-    
+    </div>
   );
 };
 

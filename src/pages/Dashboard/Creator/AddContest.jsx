@@ -6,12 +6,24 @@ import useAuth from "../../../hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AddContest = () => {
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [startDate, setStartDate] = useState(new Date());
   const [imagePreview, setImagePreview] = useState();
   const [imageText, setImageText] = useState("Upload Image");
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (contestData) => {
+      const { data } = await axiosSecure.post(`/add-contest`, contestData);
+      return data;
+    },
+    onSuccess: () => {
+      console.log("Data Saved SuccessFully");
+    },
+  });
 
   // Form handler
   const handleAddContest = async (e) => {
@@ -48,10 +60,9 @@ const AddContest = () => {
         creator,
       };
 
-      // console.table(contestData, "form add Contest page");
-
+       console.table(contestData, "form add Contest page");
       // Post Request to server
-      const { mutateAsync } = useMutation({});
+      await mutateAsync(contestData);
     } catch (error) {
       console.log(error);
     }
