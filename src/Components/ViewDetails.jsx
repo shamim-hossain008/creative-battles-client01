@@ -2,6 +2,21 @@ import React from "react";
 import { Helmet } from "react-helmet";
 
 const ViewDetails = () => {
+  // const { id } = useParams();
+  // const axiosSecure = useAxiosSecure();
+
+  // const { data: contest = {}, isLoading } = useQuery({
+  //   queryKey: ["contest, id"],
+  //   queryFn: async () => {
+  //     const { data } = await axiosSecure.get(`/contest/${id}`);
+
+  //     return data;
+  //   },
+  // });
+  // if (isLoading) return <SpinnerLoader />;
+
+  // console.log(contest);
+
   return (
     <>
       <Helmet>

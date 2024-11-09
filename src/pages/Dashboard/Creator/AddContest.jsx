@@ -60,7 +60,7 @@ const AddContest = () => {
         creator,
       };
 
-       console.table(contestData, "form add Contest page");
+      console.table(contestData, "form add Contest page");
       // Post Request to server
       await mutateAsync(contestData);
     } catch (error) {

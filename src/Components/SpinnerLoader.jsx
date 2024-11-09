@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { FadeLoader } from "react-spinners";
 
-const SpinnerLoader = () => {
-  const [loading, setLoading] = useState(true);
-
+const SpinnerLoader = ({ smallHeight }) => {
   return (
-    <div className="fadeLoader  text-center text-[#37c5bd]">
-      <FadeLoader />
+    <div
+      className={`${
+        smallHeight ? "h-[250px]" : "h-[70vh]"
+      } flex flex-col justify-center items-center`}
+    >
+      <FadeLoader size={100} color="#37c5bd" />
     </div>
   );
 };
