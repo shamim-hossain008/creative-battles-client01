@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -37,6 +38,12 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
+  // reset Password
+  const resetPassword = (email) => {
+    setLoading(true);
+    return sendPasswordResetEmail(auth, email);
+  };
+
   // log Out user
   const logOut = () => {
     setLoading(true);
@@ -56,6 +63,9 @@ const AuthProvider = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       // console.log("form auth provider", currentUser);
+      if (currentUser) {
+        getIdToken(currentUser.email);
+      }
       setLoading(false);
     });
     return () => {
@@ -67,11 +77,13 @@ const AuthProvider = ({ children }) => {
     user,
     setUser,
     loading,
+    setLoading,
     createUser,
     signIn,
     logOut,
     googleSignIn,
     updateUserProfile,
+    resetPassword,
   };
 
   return (

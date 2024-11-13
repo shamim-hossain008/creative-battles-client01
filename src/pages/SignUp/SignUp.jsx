@@ -1,10 +1,10 @@
-import { useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
 import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../../Components/SocialLogin/SocialLogin";
-import { AuthContext } from "../../Provider/AuthProvider";
+import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
@@ -16,13 +16,15 @@ const SignUp = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+
+  const { createUser, updateUserProfile, loading, setLoading } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
+    setLoading(true);
     createUser(data?.email, data?.password).then((res) => {
       const loggedUser = res?.user;
-      console.log("logged user", loggedUser);
+      // console.log("logged user", loggedUser);
 
       updateUserProfile(data?.displayName, data?.photoURL).then((res) => {
         // create user entry in the data base
@@ -33,11 +35,14 @@ const SignUp = () => {
         };
         axiosPublic.post("/users", userInfo).then((res) => {
           if (res.data.insertedId) {
-            console.log("user added to the database");
+            // console.log("user added to the database");
             reset();
             toast.success("User created successfully");
             navigate("/");
+          } else {
+            toast.error("User created Failed");
           }
+          setLoading(false);
         });
       });
     });
@@ -176,8 +181,16 @@ const SignUp = () => {
               </div>
 
               <div className="mt-6">
-                <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
-                  Sign Up
+                <button
+                  disabled={loading}
+                  type="submit"
+                  className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+                >
+                  {loading ? (
+                    <ImSpinner9 className="animate-spin text-blue-600 m-auto" />
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
               </div>
 

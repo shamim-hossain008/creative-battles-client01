@@ -40,7 +40,7 @@ export const router = createBrowserRouter([
         element: <AllContestPage />,
       },
       {
-        path: "/viewDetails",
+        path: "/contest/:id",
         element: <ViewDetails />,
       },
     ],

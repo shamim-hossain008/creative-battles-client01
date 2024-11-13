@@ -1,21 +1,25 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Helmet } from "react-helmet";
+import { useParams } from "react-router-dom";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import SpinnerLoader from "./SpinnerLoader";
 
 const ViewDetails = () => {
-  // const { id } = useParams();
-  // const axiosSecure = useAxiosSecure();
+  const { id } = useParams();
+  const axiosSecure = useAxiosSecure();
 
-  // const { data: contest = {}, isLoading } = useQuery({
-  //   queryKey: ["contest, id"],
-  //   queryFn: async () => {
-  //     const { data } = await axiosSecure.get(`/contest/${id}`);
+  const { data: contest = {}, isLoading } = useQuery({
+    queryKey: ["contest, id"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/contest/${id}`);
 
-  //     return data;
-  //   },
-  // });
-  // if (isLoading) return <SpinnerLoader />;
+      return data;
+    },
+  });
+  if (isLoading) return <SpinnerLoader />;
 
-  // console.log(contest);
+  console.log(contest);
 
   return (
     <>

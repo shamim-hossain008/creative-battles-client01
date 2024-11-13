@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useAxiosPublic from "../hooks/useAxiosPublic";
-import ContestCard from "./Card/ContestCard";
 import SpinnerLoader from "./SpinnerLoader";
 
 const PopularContest = () => {
@@ -10,10 +9,12 @@ const PopularContest = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const { data: contest = [], isLoading } = useQuery({
+  console.log(user, "from popular section");
+
+  const { data: popularContest = [], isLoading } = useQuery({
     queryKey: ["popularContest"],
     queryFn: async () => {
-      const { data } = await axiosPublic.get("/all-contest");
+      const { data } = await axiosPublic.get("/popular-contest");
       return data;
     },
     select: (data) => data.slice(0.5),
@@ -27,22 +28,32 @@ const PopularContest = () => {
         popular contest section
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-        {contest.map((contest) => (
-          <ContestCard
-            key={contest._id}
-            contest={contest.contest}
-            contestName={contest.contestName}
-            image={contest.image}
-            participationCount={contest.participationCount || 0}
-            description={contest.description.slice(0, 100)}
-            onDetailsClick={() => {
-              if (!user) {
-                navigate("/login");
-              } else {
-                navigate(`/contest/$contest_id`);
-              }
-            }}
-          />
+        {popularContest.map((contest) => (
+          <div key={contest._id} className="card bg-base-100 shadow-xl p-2">
+            <figure>
+              <img src={contest.image} alt={contest.contestName} />
+            </figure>
+            <div className="p-2">
+              <h3 className="font-semibold text-lg">
+                Contest Name: {contest.contestName}
+              </h3>
+              <p>Participants: {contest.participationCount || 0}</p>
+              <p>{contest.description.slice(0, 100)}...</p>
+              <button
+                className="btn bg-[#37c5bd] mt-2"
+                onClick={() => {
+                  if (!user) {
+                    navigate("/login");
+                  } else {
+                    navigate(`/contest/${contest._id}`);
+                  }
+                  console.log(contest);
+                }}
+              >
+                View Details
+              </button>
+            </div>
+          </div>
         ))}
       </div>
       <div className="flex justify-center mt-4">

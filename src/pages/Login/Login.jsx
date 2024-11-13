@@ -1,14 +1,18 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
 import { toast } from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Provider/AuthProvider";
 import SocialLogin from "../../Components/SocialLogin/SocialLogin";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
-  const { signIn, googleLogin, setUser } = useContext(AuthContext);
+  const { signIn, googleLogin, setUser, loading, setLoading, resetPassword } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const from = location?.state || "/";
+  const [email, setEmail] = useState();
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -16,15 +20,34 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
 
+    setLoading(true);
+
     signIn(email, password)
       .then((res) => {
         setUser(res.user);
         toast.success("User Login Successfully");
-        navigate(location?.state ? location.state : "/");
+        navigate(from);
       })
       .catch((error) => {
         toast.error("Logged in failed.....!");
+        setLoading(false);
       });
+  };
+
+  // reset password
+  const handleResetPassword = async () => {
+    if (!email) return toast.error("Please write your email first");
+    try {
+      await resetPassword(email);
+      toast.success(
+        "Request Success! Check your email for further process...."
+      );
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+      setLoading(false);
+    }
   };
 
   // const handleGoogleLogin = () => {
@@ -60,7 +83,7 @@ const Login = () => {
               Welcome back!
             </p>
 
-            <SocialLogin/>
+            <SocialLogin />
 
             <form onSubmit={handleLogin}>
               <div className="flex items-center justify-between mt-4">
@@ -88,6 +111,7 @@ const Login = () => {
                   className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
                   type="email"
                   name="email"
+                  onBlur={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -110,11 +134,26 @@ const Login = () => {
               </div>
 
               <div className="mt-6">
-                <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
-                  Sign In
+                <button
+                  disabled={loading}
+                  className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+                >
+                  {loading ? (
+                    <ImSpinner9 className="animate-spin m-auto text-green-600" />
+                  ) : (
+                    "Sign In"
+                  )}
                 </button>
               </div>
             </form>
+            <div className="space-y-1">
+              <button
+                onClick={handleResetPassword}
+                className="text-xs hover:underline hover:text-[#37c5bd] text-gray-100"
+              >
+                Forget Password
+              </button>
+            </div>
 
             <div className="flex items-center justify-between mt-4">
               <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>

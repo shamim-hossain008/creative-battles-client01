@@ -6,6 +6,7 @@ const ContestCard = ({
   participationCount,
   image,
   description,
+  contest,
 }) => {
   return (
     <div className="card bg-base-100 w-96 shadow-xl p-2">
@@ -21,7 +22,7 @@ const ContestCard = ({
           <p>{description}....</p>
         </div>
         <div className="card-actions p-2">
-          <Link to="/viewDetails" className="btn bg-[#37c5bd]">
+          <Link to="(`/contest/${contest._id}`)" className="btn bg-[#37c5bd]">
             View Details
           </Link>
         </div>
