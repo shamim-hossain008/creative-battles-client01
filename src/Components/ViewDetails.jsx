@@ -19,44 +19,47 @@ const ViewDetails = () => {
   });
   if (isLoading) return <SpinnerLoader />;
 
-  console.log(contest);
-
   return (
     <>
       <Helmet>
         <title>Creative-Battles | View Details</title>
       </Helmet>
       <div className="max-w-4xl mx-auto p-4 mt-16">
-        <h1 className="text-3xl font-bold mb-4">Contest Name</h1>
+        <h1 className="text-3xl font-bold mb-4">
+          Contest Name: {contest?.contestName}
+        </h1>
         <img
-          src="https://miro.medium.com/v2/resize:fit:1358/0*MP6LuktlEBIr8N90"
-          alt=""
+          src={contest?.image}
+          alt="image"
           className="w-full h-64 object-cover mb-4"
         />
 
         <div className="mb-4">
-          <strong>Attempts/Participation Count:</strong> attempted Count
+          <strong>Participation Count: </strong>
+          {contest?.participationCount || 0}
         </div>
 
         <div className="mb-4">
           <h2 className="text-xl font-semibold">Description</h2>
-          <p>contest-description</p>
+          <p>{contest?.description}</p>
         </div>
 
         <div className="mb-4">
           <h2 className="text-xl font-semibold">Prize</h2>
-          <p>contest-prize</p>
+          <p>${contest?.prize}</p>
         </div>
 
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold">Winner</h2>
-          <p>contest-winner-name</p>
-          <img
-            src="https://miro.medium.com/v2/resize:fit:1358/0*MP6LuktlEBIr8N90"
-            alt=""
-            className="w-32 h-32 object-cover"
-          />
-        </div>
+        {contest.winnerName && contest.winnerImage && (
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold">Winner</h2>
+            <p>{contest?.winnerName}</p>
+            <img
+              src={contest?.winnerImage}
+              alt={`${contest?.winnerName}'s Image`}
+              className="w-32 h-32 object-cover"
+            />
+          </div>
+        )}
 
         <div className="mb-4">
           <h2 className="text-xl font-semibold">Time Left</h2>

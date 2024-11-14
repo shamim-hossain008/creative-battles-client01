@@ -24,6 +24,7 @@ const AddContest = () => {
       console.log("Data Saved SuccessFully");
     },
   });
+  const { loading, setLoading } = useAuth();
 
   // Form handler
   const handleAddContest = async (e) => {
@@ -43,6 +44,7 @@ const AddContest = () => {
       image: user?.photoURL,
       email: user?.email,
     };
+    setLoading(true);
     console.log("User object:", user); // To check all user properties
 
     //image upload and save to imgbb
@@ -66,6 +68,7 @@ const AddContest = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   // HandleImage change

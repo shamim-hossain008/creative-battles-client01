@@ -2,6 +2,7 @@ import React from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import useAuth from "../../hooks/useAuth";
 
 const AddContestForm = ({
   handleAddContest,
@@ -12,6 +13,7 @@ const AddContestForm = ({
   imageText,
   handleImage,
 }) => {
+  
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
       <form onSubmit={handleAddContest}>
