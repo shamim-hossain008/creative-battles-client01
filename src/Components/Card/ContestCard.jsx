@@ -9,12 +9,12 @@ const ContestCard = ({
   contest,
 }) => {
   return (
-    <div className="card bg-base-100 w-96 h-full mx-auto shadow-xl p-2 cursor-pointer overflow-hidden aspect-square group">
+    <div className="card bg-base-100 w-96 h-full mx-auto shadow-xl cursor-pointer group overflow-hidden aspect-square">
       <figure>
         <img
           src={image}
           alt={contestName}
-          className="object-cover h-full w-full group-hover:scale-125 transition"
+          className="object-cover overflow-hidden  h-full w-full group-hover:scale-125 transition"
         />
       </figure>
       <div>

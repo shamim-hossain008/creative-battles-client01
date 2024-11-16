@@ -23,15 +23,15 @@ const AllContestPage = () => {
       <Helmet>
         <title>Creative-Battles | All Contest Page</title>
       </Helmet>
-      <div className="p-2 ">
-        <h2 className="text-2xl uppercase font-bold text-center p-4 text-[#37c5bd]">
+      <div className="p-2 overflow-hidden">
+        <h2 className="text-2xl uppercase font-bold text-center m-4 text-[#37c5bd]">
           All contest section
         </h2>
         <p className="text-center text-gray-600">
           Total Contests: {allContest.length}
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-2">
           {allContest.map((contest) => (
             <ContestCard
               key={contest._id}

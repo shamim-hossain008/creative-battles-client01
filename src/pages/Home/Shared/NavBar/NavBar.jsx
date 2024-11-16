@@ -48,6 +48,7 @@ const NavBar = () => {
 
         {/* Right side */}
         <div className="">
+          {/* Dropdown Menu */}
           <div className="block md:hidden dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn">
               <RxHamburgerMenu className="size-6" />
@@ -57,40 +58,56 @@ const NavBar = () => {
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2.5 shadow flex flex-col gap-2"
             >
               {navLinks}
-
-              <Link to="/login">
-                <button className="btn btn-primary btn-md w-full">Login</button>
-              </Link>
+              {user ? (
+                <button
+                  onClick={handleSignOut}
+                  className="btn w-26 text-xl text-white bg-[#37c5bd] font-bold "
+                >
+                  Sign Out
+                </button>
+              ) : (
+                <Link to="/login">
+                  <button className="btn btn-primary btn-md w-full">
+                    Login
+                  </button>
+                </Link>
+              )}
             </ul>
           </div>
 
-          {user ? (
-            <div className="flex items-center lg:gap-4">
-              {user && (
-                <div
-                  tabIndex={0}
-                  role="button"
-                  data-tip={user?.email}
-                  className="btn btn-ghost btn-circle avatar tooltip tooltip-bottom"
-                >
-                  <img className="lg:w-10  rounded-full" src={user?.photoURL} />
-                </div>
-              )}
+          {/* Right side */}
+          <div className="hidden md:block">
+            {user ? (
+              <div className="flex items-center lg:gap-4 ">
+                {user && (
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    data-tip={user?.email}
+                    className="btn btn-ghost btn-circle avatar tooltip tooltip-bottom"
+                  >
+                    <img
+                      className="lg:w-10  rounded-full"
+                      src={user?.photoURL}
+                    />
+                  </div>
+                )}
 
-              <button
-                onClick={handleSignOut}
-                className="btn w-26 text-xl text-white bg-[#37c5bd] font-bold "
-              >
-                Sign Out
-              </button>
-            </div>
-          ) : (
-            <Link to="/login">
-              <button className="hidden md:block btn w-24 text-white btn-primary">
-                Login
-              </button>
-            </Link>
-          )}
+                <button
+                  onClick={handleSignOut}
+                  className="btn w-26 text-xl text-white bg-[#37c5bd] font-bold "
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link to="/login">
+                <button className="hidden md:block btn w-24 text-white btn-primary">
+                  Login
+                </button>
+              </Link>
+            )}
+          </div>
         </div>
       </nav>
     </header>

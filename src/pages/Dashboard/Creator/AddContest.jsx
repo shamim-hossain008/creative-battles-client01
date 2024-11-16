@@ -6,10 +6,14 @@ import useAuth from "../../../hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AddContest = () => {
   const axiosSecure = useAxiosSecure();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [startDate, setStartDate] = useState(new Date());
   const [imagePreview, setImagePreview] = useState();
@@ -21,14 +25,17 @@ const AddContest = () => {
       return data;
     },
     onSuccess: () => {
-      console.log("Data Saved SuccessFully");
+      // console.log("Data Saved SuccessFully");
+      toast.success("Add Contest Successfully");
+      navigate("/dashboard/my-created-contest");
+      setLoading(false);
     },
   });
-  const { loading, setLoading } = useAuth();
 
   // Form handler
   const handleAddContest = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const form = e.target;
     const contestName = form.contestName.value;
     const category = form.category.value;
@@ -67,8 +74,9 @@ const AddContest = () => {
       await mutateAsync(contestData);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   // HandleImage change
@@ -91,6 +99,7 @@ const AddContest = () => {
         imagePreview={imagePreview}
         handleImage={handleImage}
         imageText={imageText}
+        loading={loading}
       />
     </>
   );

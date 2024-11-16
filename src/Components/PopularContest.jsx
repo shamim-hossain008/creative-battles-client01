@@ -27,7 +27,7 @@ const PopularContest = () => {
       <h2 className="text-2xl uppercase font-bold text-center p-4 text-[#37c5bd]">
         popular contest section
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-60 p-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-2">
         {popularContest.map((contest) => (
           <div
             key={contest._id}

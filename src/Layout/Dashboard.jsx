@@ -19,7 +19,9 @@ const Dashboard = () => {
             </h3>
           </Link>
         </div>
-        <Sidebar />
+        <div>
+          <Sidebar />
+        </div>
       </div>
 
       {/* Outlet --- Dynamic content */}
