@@ -1,5 +1,7 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import SpinnerLoader from "../../../Components/SpinnerLoader";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
@@ -8,6 +10,7 @@ const MyCreatedContest = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
+  let [isOpen, setIsOpen] = useState(true);
 
   // Fetch Contests
   const {
@@ -24,6 +27,39 @@ const MyCreatedContest = () => {
     },
   });
   console.log(contests, " MyCreatedContest data");
+  // delete contest
+  const deleteMutation = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/my-created-contest/${id}`);
+      return data;
+    },
+  });
+
+  // handle Delete
+  const handleDelete = async (id) => {
+    try {
+      await deleteMutation.mutate(id);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#37C5BD",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        }
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   if (isLoading) return <SpinnerLoader />;
   return (
@@ -50,21 +86,21 @@ const MyCreatedContest = () => {
                   <button
                     className="btn btn-primary"
                     onClick={() =>
-                      (window.location.href = `/editContest/${contest._id}`)
+                      (window.location.href = `/editContest/${contest?._id}`)
                     }
                   >
                     Edit
                   </button>
                   <button
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(contest._id)}
+                    className="btn btn-error"
+                    onClick={() => handleDelete(contest?._id)}
                   >
                     Delete
                   </button>
                 </>
 
                 <Link
-                  to={`/contest-submitted/${contest._id}`}
+                  to={`/contest-submitted/${contest?._id}`}
                   className="btn bg-[#37C5BD]"
                 >
                   See Submissions
