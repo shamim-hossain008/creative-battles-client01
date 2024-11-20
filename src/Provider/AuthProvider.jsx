@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -58,13 +59,40 @@ const AuthProvider = ({ children }) => {
     });
   };
 
+  // Get token form server
+  const getToken = async (email) => {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/jwt`,
+      { email },
+      { withCredentials: true }
+    );
+    console.log(data, "JWT token received");
+    return data;
+  };
+
+  //save user
+  const saveUser = async (user) => {
+    const currentUser = {
+      email: user?.email,
+      role: "user",
+      status: "Verified",
+    };
+    const { data } = await axios.put(
+      `${import.meta.env.VITE_BASE_URL}/user`,
+      currentUser
+    );
+    console.log(data, "User saved successfully");
+    return data;
+  };
+
   // onAuthStateChange
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       // console.log("form auth provider", currentUser);
       if (currentUser) {
-        getIdToken(currentUser.email);
+        getToken(currentUser.email);
+        saveUser(currentUser);
       }
       setLoading(false);
     });

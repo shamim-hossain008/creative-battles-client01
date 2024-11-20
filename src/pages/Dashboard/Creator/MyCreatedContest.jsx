@@ -1,7 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
+import DeleteModal from "../../../Components/Dashboard/Modal/DeleteModal";
 import SpinnerLoader from "../../../Components/SpinnerLoader";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
@@ -9,8 +11,14 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 const MyCreatedContest = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const queryClient = useQueryClient();
-  let [isOpen, setIsOpen] = useState(true);
+
+  // for delete Modal
+  let [isOpen, setIsOpen] = useState(false);
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  // Update modal
 
   // Fetch Contests
   const {
@@ -33,29 +41,15 @@ const MyCreatedContest = () => {
       const { data } = await axiosSecure.delete(`/my-created-contest/${id}`);
       return data;
     },
+    onSuccess: (data) => {
+      refetch(), toast.success("Your Contest has been deleted");
+    },
   });
 
   // handle Delete
   const handleDelete = async (id) => {
     try {
       await deleteMutation.mutate(id);
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#37C5BD",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
-        }
-      });
     } catch (error) {
       console.log(error.message);
     }
@@ -64,7 +58,9 @@ const MyCreatedContest = () => {
   if (isLoading) return <SpinnerLoader />;
   return (
     <div>
-      <h3>MyCreatedContest</h3>
+      <Helmet>
+        <title>My Created Contest | Dashboard </title>
+      </Helmet>
       <table className="table-auto w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-200">
@@ -92,11 +88,17 @@ const MyCreatedContest = () => {
                     Edit
                   </button>
                   <button
+                    onClick={() => setIsOpen(true)}
                     className="btn btn-error"
-                    onClick={() => handleDelete(contest?._id)}
                   >
                     Delete
                   </button>
+                  <DeleteModal
+                    isOpen={isOpen}
+                    closeModal={closeModal}
+                    handleDelete={handleDelete}
+                    id={contest?._id}
+                  />
                 </>
 
                 <Link
