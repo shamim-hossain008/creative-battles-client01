@@ -93,6 +93,18 @@ export const router = createBrowserRouter([
         path: "contest-submitted",
         element: <ContestSubmitted />,
       },
+      {
+        path: "my-participated-Contest",
+        element: <MyParticipatedContest />,
+      },
+      {
+        path: "my-winning-contest-page",
+        element: <MyWinningContestPage />,
+      },
+      {
+        path: "my-profile",
+        element: <MyProfile />,
+      },
     ],
   },
 ]);

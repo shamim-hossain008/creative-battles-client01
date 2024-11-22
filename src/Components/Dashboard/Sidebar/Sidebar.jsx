@@ -1,11 +1,15 @@
-import { AiOutlineFileDone } from "react-icons/ai";
-import { CgAdd } from "react-icons/cg";
-import { IoCreateOutline } from "react-icons/io5";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import useRole from "../../../hooks/useRole";
+import AdminMenu from "../RoleMenu/AdminMenu/AdminMenu";
+import CreatorMenu from "../RoleMenu/CreatorMenu/CreatorMenu";
+import UserMenu from "../RoleMenu/UserMenu/UserMenu";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
+  const [role, isLoading] = useRole();
+
+  console.log(role);
 
   const handleSignOut = () => {
     logOut()
@@ -16,41 +20,13 @@ const Sidebar = () => {
     <div className="flex flex-col justify-between  gap-4">
       <div>
         <ul className="menu">
-          {/* Admin Dashboard */}
-          {/* <>
-        
+          {/* User Dashboard */}
+          {role === "user" && <UserMenu />}
+          {/* Contest Creator */}
+          {role === "creator" && <CreatorMenu />}
 
-          <li>
-            <NavLink to="manage-user">
-              <GrUserManager />
-              Manage User
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="manage-contest">
-              <FaUserEdit /> 
-              Manage Contests
-            </NavLink>
-          </li>
-        </> */}
-          <li>
-            <NavLink to="add-contest">
-              <CgAdd />
-              Add Contest
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="my-created-contest">
-              <IoCreateOutline />
-              My Created Contest
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="contest-submitted">
-              <AiOutlineFileDone />
-              Contest Submitted
-            </NavLink>
-          </li>
+          {/* Admin Dashboard */}
+          {role === "admin" && <AdminMenu />}
         </ul>
       </div>
 
