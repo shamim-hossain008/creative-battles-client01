@@ -34,7 +34,7 @@ const MyCreatedContest = () => {
       return data;
     },
   });
-  console.log(contests, " MyCreatedContest data");
+  // console.log(contests, " MyCreatedContest data");
   // delete contest
   const deleteMutation = useMutation({
     mutationFn: async (id) => {

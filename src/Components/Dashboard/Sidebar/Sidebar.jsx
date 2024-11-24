@@ -21,12 +21,15 @@ const Sidebar = () => {
       <div>
         <ul className="menu">
           {/* User Dashboard */}
-          {role === "user" && <UserMenu />}
+          {/* {role === "user" && <UserMenu />} */}
+          <UserMenu />
           {/* Contest Creator */}
-          {role === "creator" && <CreatorMenu />}
+          {/* {role === "creator" && <CreatorMenu />} */}
+          <CreatorMenu />
 
           {/* Admin Dashboard */}
-          {role === "admin" && <AdminMenu />}
+          {/* {role === "admin" && <AdminMenu />} */}
+          <AdminMenu />
         </ul>
       </div>
 
