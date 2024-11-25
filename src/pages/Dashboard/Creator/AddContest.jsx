@@ -52,7 +52,7 @@ const AddContest = () => {
       email: user?.email,
     };
     setLoading(true);
-    console.log("User object:", user); // To check all user properties
+    // console.log("User object:", user); // To check all user properties
 
     //image upload and save to imgbb
     try {
@@ -69,7 +69,6 @@ const AddContest = () => {
         creator,
       };
 
-      console.table(contestData, "form add Contest page");
       // Post Request to server
       await mutateAsync(contestData);
     } catch (error) {

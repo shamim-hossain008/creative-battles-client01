@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
+import EditContest from "../../Components/SocialLogin/EditContest";
 import ViewDetails from "../../Components/ViewDetails";
 import AllContestPage from "../../pages/AllContestPage/AllContestPage";
 import ManageContest from "../../pages/Dashboard/Admin/ManageContest";
@@ -90,7 +91,7 @@ export const router = createBrowserRouter([
         element: <MyCreatedContest />,
       },
       {
-        path: "contest-submitted",
+        path: "contest-submitted:id",
         element: <ContestSubmitted />,
       },
       {
@@ -104,6 +105,10 @@ export const router = createBrowserRouter([
       {
         path: "my-profile",
         element: <MyProfile />,
+      },
+      {
+        path: "edit-contest:id",
+        element: <EditContest />,
       },
     ],
   },

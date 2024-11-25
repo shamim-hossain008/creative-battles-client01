@@ -78,15 +78,14 @@ const MyCreatedContest = () => {
                 {contest.status === "accepted" ? "Accepted" : "Pending.."}
               </td>
               <td className="border flex justify-between px-4 py-2 space-x-2">
+                <Link
+                  className="btn btn-primary"
+                  to={`/edit-contest/${contest?._id}`}
+                >
+                  Edit
+                </Link>
+
                 <>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() =>
-                      (window.location.href = `/editContest/${contest?._id}`)
-                    }
-                  >
-                    Edit
-                  </button>
                   <button
                     onClick={() => setIsOpen(true)}
                     className="btn btn-error"

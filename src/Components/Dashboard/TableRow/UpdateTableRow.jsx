@@ -5,10 +5,12 @@ import UpdateRoleModal from "../Modal/UpdateRoleModal";
 
 import { toast } from "react-hot-toast";
 
+import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const UpdateTableRow = ({ user, refetch }) => {
-  console.log(user);
+  const { user: loggedInUser } = useAuth();
+
   const axiosSecure = useAxiosSecure();
   // for delete Modal
   let [isOpen, setIsOpen] = useState(false);
@@ -27,12 +29,11 @@ const UpdateTableRow = ({ user, refetch }) => {
         `/users/update/${user?.email}`,
         role
       );
-      console.log(user, "all user..........");
+
       return data;
     },
 
     onSuccess: (data) => {
-      console.log(data, "user data");
       refetch();
       toast.success("User role updated Successful!");
       setIsModalOpen(false);
@@ -41,13 +42,16 @@ const UpdateTableRow = ({ user, refetch }) => {
 
   // modal handler
   const modalHandler = async (selected) => {
-    console.log("role Updated", selected);
-    const user = {
+    if (loggedInUser.email === user.email) {
+      toast.error("Action Not Allowed");
+      return setIsModalOpen(false);
+    }
+    const userRole = {
       role: selected,
-      status: "Verified",
+      status: "Accepted",
     };
     try {
-      await mutateAsync(user);
+      await mutateAsync(userRole);
     } catch (error) {
       toast.error(error.message);
       console.log(error.message);
