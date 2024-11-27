@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DeleteModal from "../../../Components/Dashboard/Modal/DeleteModal";
 import SpinnerLoader from "../../../Components/SpinnerLoader";
 import useAuth from "../../../hooks/useAuth";
@@ -10,6 +10,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyCreatedContest = () => {
   const { user } = useAuth();
+  const { contestId } = useParams();
   const axiosSecure = useAxiosSecure();
 
   // for delete Modal
@@ -63,7 +64,7 @@ const MyCreatedContest = () => {
       </Helmet>
       <table className="table-auto w-full border-collapse border border-gray-300">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-[#37C5BD]">
             <th className="border px-4 py-2">Contest Name</th>
             <th className="border px-4 py-2">Status</th>
             <th className="border px-4 py-2">Actions</th>
@@ -71,16 +72,15 @@ const MyCreatedContest = () => {
         </thead>
         <tbody>
           {contests.map((contest) => (
-            // <TableRows key={contest._id} contest={contest} refetch={refetch} />
             <tr key={contest._id}>
               <td className="border px-4 py-2">{contest.contestName}</td>
-              <td className="border px-4 py-2 text-center">
+              <td className="border px-4 py-2 text-center text-red-400 ">
                 {contest.status === "accepted" ? "Accepted" : "Pending.."}
               </td>
               <td className="border flex justify-between px-4 py-2 space-x-2">
                 <Link
                   className="btn btn-primary"
-                  to={`/edit-contest/${contest?._id}`}
+                  to={`dashboard/edit-contest/${contest?._id}`}
                 >
                   Edit
                 </Link>
@@ -101,7 +101,7 @@ const MyCreatedContest = () => {
                 </>
 
                 <Link
-                  to={`/contest-submitted/${contest?._id}`}
+                  to={`/dashboard/contest-submitted/${contestId}`}
                   className="btn bg-[#37C5BD]"
                 >
                   See Submissions

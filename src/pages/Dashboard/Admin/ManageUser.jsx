@@ -35,12 +35,12 @@ const ManageUser = () => {
         <title>Manage User by Admin | Dashboard </title>
       </Helmet>
       <div>
-        <h2 className="inline text-center mx-auto text-xl p-2 bg-green-300 border rounded-full px-6 py-2">
+        <h2 className="inline text-center font-bold mx-auto text-xl p-2 bg-green-300 border rounded-full px-6 py-2">
           Total Users: {users.length}
         </h2>
         <table className="table-auto w-full border-collapse border border-gray-300 mt-4">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-[#37C5BD]">
               <th className="border px-4 py-2">Name</th>
               <th className="border px-4 py-2">Email</th>
               <th className="border px-4 py-2">Role</th>

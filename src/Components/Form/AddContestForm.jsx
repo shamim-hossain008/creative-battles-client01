@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { ImSpinner9 } from "react-icons/im";
+import { Link } from "react-router-dom";
 
 const AddContestForm = ({
   handleAddContest,
@@ -138,6 +139,9 @@ const AddContestForm = ({
                 type="text"
                 required
               ></textarea>
+            </div>
+            <div>
+              <Link to='/dashboard/submission-form'></Link>
             </div>
 
             <div className="space-y-1 text-sm">

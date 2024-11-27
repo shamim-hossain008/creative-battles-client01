@@ -85,7 +85,7 @@ const UpdateTableRow = ({ user, refetch }) => {
       <td className="border px-4 py-2 text-center">{user?.role}</td>
 
       <td class="px-12 py-4 text-sm text-center font-medium whitespace-nowrap">
-        <div class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100">
+        <div className="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100">
           {user?.status}
         </div>
       </td>

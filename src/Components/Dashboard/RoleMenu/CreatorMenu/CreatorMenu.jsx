@@ -20,7 +20,7 @@ const CreatorMenu = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="contest-submitted">
+          <NavLink to="contest-submitted/:contestId">
             <AiOutlineFileDone />
             Contest Submitted
           </NavLink>
