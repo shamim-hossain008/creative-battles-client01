@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
-import SubmittedTableRow from "../../../Components/Dashboard/TableRow/SubmittedTablerow";
 import SpinnerLoader from "../../../Components/SpinnerLoader";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 

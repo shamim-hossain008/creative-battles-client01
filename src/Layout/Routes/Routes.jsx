@@ -15,9 +15,12 @@ import MyProfile from "../../pages/Dashboard/User/MyProfile";
 import MyWinningContestPage from "../../pages/Dashboard/User/MyWinningContestPage";
 import Home from "../../pages/Home/Home/Home";
 import Login from "../../pages/Login/Login";
+import PaymentPage from "../../pages/Payment/PaymentPage";
 import SignUp from "../../pages/SignUp/SignUp";
 import Dashboard from "../Dashboard";
 import MainLayout from "../MainLayout";
+import AdminRoute from "./AdminRoute";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -75,11 +78,21 @@ export const router = createBrowserRouter([
         path: "my-profile",
         element: <MyProfile />,
       },
+      {
+        path: "payment/:contestId",
+        element: <PaymentPage />,
+      },
 
       // Admin Only Routes
       {
         path: "manage-user",
-        element: <ManageUser />,
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <ManageUser />
+            </PrivateRoute>
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-contest",

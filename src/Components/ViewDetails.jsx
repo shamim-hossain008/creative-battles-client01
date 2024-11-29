@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Helmet } from "react-helmet";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import SpinnerLoader from "./SpinnerLoader";
 
 const ViewDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const { data: contest = {}, isLoading } = useQuery({
     queryKey: ["contest, id"],
@@ -17,6 +18,12 @@ const ViewDetails = () => {
       return data;
     },
   });
+
+  const handleRegister = () => {
+    navigate(`/dashboard/payment/${contest._id}}`, {
+      state: { price: contest.price },
+    });
+  };
   if (isLoading) return <SpinnerLoader />;
 
   return (
@@ -28,6 +35,7 @@ const ViewDetails = () => {
         <h1 className="text-3xl font-bold mb-4">
           Contest Name: {contest?.contestName}
         </h1>
+
         <img
           src={contest?.image}
           alt="image"
@@ -68,7 +76,10 @@ const ViewDetails = () => {
 
         <div className="mb-4 text-red-500">Contest is no longer available.</div>
 
-        <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        <button
+          onClick={handleRegister}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
           Register for Contest
         </button>
       </div>
