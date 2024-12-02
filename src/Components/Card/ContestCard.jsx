@@ -10,7 +10,7 @@ const ContestCard = ({
   price,
 }) => {
   return (
-    <div className="card bg-base-100 w-96 h-full mx-auto shadow-xl cursor-pointer group overflow-hidden aspect-square">
+    <div className="card p-2 bg-base-100 w-96 h-full mx-auto shadow-xl cursor-pointer group overflow-hidden aspect-square">
       <figure>
         <img
           src={image}
@@ -22,7 +22,6 @@ const ContestCard = ({
         <div className="flex justify-between">
           <h2 className="card-title">ContestName:{contestName}</h2>
           <h2>Participation Count:{participationCount}</h2>
-          <p>price:{price}</p>
         </div>
         <div>
           <p>{description}....</p>

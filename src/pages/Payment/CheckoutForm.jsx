@@ -1,20 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import "../Payment/CheckoutForm.css";
 
-const CheckoutForm = ({ price }) => {
+const CheckoutForm = ({ price, contestId }) => {
+  const { user } = useAuth();
   const [error, setError] = useState("");
   const stripe = useStripe();
   const elements = useElements();
-  const [transactionId, setTransactionId] = useState("");
+  const axiosSecure = useAxiosSecure();
+  const [clientSecret, setClientSecret] = useState("");
+  const [transactionId, setTransactionId] = useState();
+  const [processing, setProcessing] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (price > 1) {
+      getClientSecret({ price: price });
+    }
+  }, [price]);
+
+  //   get client secret
+  const getClientSecret = async (price) => {
+    const { data } = await axiosSecure.post(`/create-payment-intent`, price);
+    console.log("clientSecret from server------>", data);
+    setClientSecret(data.clientSecret);
+  };
 
   const handleSubmit = async (event) => {
     // Block native form submission.
     event.preventDefault();
-
+    setProcessing(true);
     if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
       // form submission until Stripe.js has loaded.
@@ -38,9 +57,55 @@ const CheckoutForm = ({ price }) => {
 
     if (error) {
       console.log("[error]", error);
+      setError(error.message);
+      setProcessing(false);
+      return;
     } else {
       console.log("[PaymentMethod]", paymentMethod);
+      setError("");
     }
+
+    //   confirm payment
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            email: user?.email || "anonymous",
+            name: user?.displayName || "anonymous",
+          },
+        },
+      });
+    if (confirmError) {
+      console.log("confirmError", confirmError);
+      setError(confirmError.message);
+      setProcessing(false);
+      return;
+    }
+    if (paymentIntent.status === "succeeded") {
+      console.log(paymentIntent);
+      //   create payment info object
+      const paymentInfo = {
+        email: user?.email,
+        price: price,
+        contestId: contestId,
+        transactionId: paymentIntent.id,
+        date: new Date(),
+        status: "pending",
+      };
+      delete paymentInfo._id;
+      console.log("payment info", paymentInfo);
+
+      try {
+        // save payment info in submit collection (db)
+        const { data } = await axiosSecure.post("/submit", paymentInfo);
+        console.log(data);
+        setTransactionId(paymentIntent.id);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+    setProcessing(false);
   };
 
   return (
@@ -61,7 +126,11 @@ const CheckoutForm = ({ price }) => {
           },
         }}
       />
-      <button className="btn bg-[#37C5BD]" type="submit" disabled={!stripe}>
+      <button
+        className="btn bg-[#37C5BD]"
+        type="submit"
+        disabled={!stripe || !clientSecret || processing}
+      >
         Pay ${price}
       </button>
       <p className="text-red-600">{error}</p>

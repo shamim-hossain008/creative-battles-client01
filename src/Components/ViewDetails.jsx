@@ -21,7 +21,7 @@ const ViewDetails = () => {
 
   const handleRegister = () => {
     navigate(`/dashboard/payment/${contest._id}}`, {
-      state: { price: contest.price },
+      state: { price: contest.price, contestId: contest._id },
     });
   };
   if (isLoading) return <SpinnerLoader />;

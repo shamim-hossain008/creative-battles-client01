@@ -36,7 +36,7 @@ const AllContestPage = () => {
             <ContestCard
               key={contest._id}
               contest={contest}
-              price={contest.price}
+              
               image={contest.image}
               contestName={contest.contestName}
               participationCount={contest.participationCount || 0} // Passing the count to ContestCard
