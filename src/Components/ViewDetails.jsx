@@ -20,7 +20,7 @@ const ViewDetails = () => {
   });
 
   const handleRegister = () => {
-    navigate(`/dashboard/payment/${contest._id}}`, {
+    navigate(`/dashboard/payment/${contest._id}`, {
       state: { price: contest.price, contestId: contest._id },
     });
   };

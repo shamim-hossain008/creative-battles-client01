@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -86,21 +87,26 @@ const CheckoutForm = ({ price, contestId }) => {
       console.log(paymentIntent);
       //   create payment info object
       const paymentInfo = {
-        email: user?.email,
+        user: {
+          name: user?.displayName,
+          email: user?.email,
+          image: user?.photoURL,
+        },
+
         price: price,
         contestId: contestId,
         transactionId: paymentIntent.id,
         date: new Date(),
-        status: "pending",
+        status: "completed",
       };
       delete paymentInfo._id;
-      console.log("payment info", paymentInfo);
 
       try {
         // save payment info in submit collection (db)
         const { data } = await axiosSecure.post("/submit", paymentInfo);
-        console.log(data);
-        setTransactionId(paymentIntent.id);
+
+        toast.success("Thank you for your payment");
+        navigate("/dashboard/my-participated-contest"); // Use absolute path
       } catch (error) {
         console.error(error.message);
       }

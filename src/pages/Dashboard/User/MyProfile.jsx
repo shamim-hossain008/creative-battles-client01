@@ -4,10 +4,13 @@ const MyProfile = () => {
   const { user } = useAuth();
   return (
     <div className="card card-body text-center items-center mx-auto mt-4 bg-[#37C5BD] w-1/2 h-full rounded-2xl">
-      <h2>Your Profile</h2>
+      <h2>MY Profile</h2>
       <div className="avatar inline-flex justify-center">
         <div className="w-24 rounded-full">
-          <img src={user?.photoURL} />
+          <img
+            className="overflow-hidden content-center"
+            src={user?.photoURL}
+          />
         </div>
       </div>
 
