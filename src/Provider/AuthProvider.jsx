@@ -87,15 +87,31 @@ const AuthProvider = ({ children }) => {
 
   // onAuthStateChange
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      // console.log("form auth provider", currentUser);
+    const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        getToken(currentUser.email);
-        saveUser(currentUser);
+        try {
+          // Get the JWT token
+          await getToken(currentUser.email);
+
+          // Fetch additional user data from the backend
+          const { data: userData } = await axios.get(
+            `${import.meta.env.VITE_BASE_URL}/user/${currentUser.email}`
+          );
+
+          // Merge additional data (like role) into the currentUser object
+          setUser({ ...currentUser, ...userData });
+
+          // Optionally save the user to the backend if it’s a new user
+          saveUser(currentUser);
+        } catch (error) {
+          console.error("Error fetching user data or token:", error);
+        }
+      } else {
+        setUser(null); // User is logged out
       }
       setLoading(false);
     });
+
     return () => {
       unSubscribe();
     };

@@ -25,7 +25,7 @@ const ManageUser = () => {
     },
   });
 
-  // console.log(users, "all users data");
+  
 
   if (isLoading) return <SpinnerLoader />;
 
