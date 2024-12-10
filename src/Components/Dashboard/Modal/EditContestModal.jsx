@@ -5,11 +5,31 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { Fragment } from "react";
-const DeleteModal = ({ closeModal, isOpen, handleDelete, id }) => {
+import { Fragment, useState } from "react";
+import UpdateContestForm from "../../Form/UpdateContestForm";
+const EditContestModal = ({ setIsEditModalOpen, isOpen, contest, refetch }) => {
+  const [date, setDate] = useState(contest?.date);
+  const [imagePreview, setImagePreview] = useState();
+  const [imageText, setImageText] = useState("Upload Image");
+  const [loading, setLoading] = useState();
+  const [contestData, setContestData] = useState(contest);
+
+  //   Date handler
+  const handleDate = (item) => {
+    setDate(item.selection);
+  };
+
+  //
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  };
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => setIsEditModalOpen(false)}
+      >
         <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
@@ -36,34 +56,29 @@ const DeleteModal = ({ closeModal, isOpen, handleDelete, id }) => {
               <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <DialogTitle
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg font-medium text-center leading-6 text-gray-900"
                 >
-                  Are you sure?
+                  Update Contest Info
                 </DialogTitle>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    You won't be able to revert this!
-                  </p>
+                <div className="mt-2 w-full">
+                  {/* Update Contest Form */}
+                  <UpdateContestForm
+                    handleSubmit={handleSubmit}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    loading={loading}
+                    setLoading={setLoading}
+                    contestData={contestData}
+                  />
                 </div>
                 <hr className="mt-8 " />
-                <div className="flex mt-2 justify-around">
-                  <button
-                    onClick={() => {
-                      handleDelete(id);
-
-                      closeModal();
-                    }}
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                  >
-                    Yes
-                  </button>
+                <div className="mt-2 ">
                   <button
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                    onClick={closeModal}
+                    onClick={() => setIsEditModalOpen(false)}
                   >
-                    No
+                    Cancel
                   </button>
                 </div>
               </DialogPanel>
@@ -75,4 +90,4 @@ const DeleteModal = ({ closeModal, isOpen, handleDelete, id }) => {
   );
 };
 
-export default DeleteModal;
+export default EditContestModal;

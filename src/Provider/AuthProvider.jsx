@@ -91,8 +91,11 @@ const AuthProvider = ({ children }) => {
       if (currentUser) {
         try {
           // Get the JWT token
-          await getToken(currentUser.email);
-
+          const res = await getToken(currentUser.email);
+          console.log("res from Auth", res);
+          if (res) {
+            localStorage.setItem("accessToken", res?.token);
+          }
           // Fetch additional user data from the backend
           const { data: userData } = await axios.get(
             `${import.meta.env.VITE_BASE_URL}/user/${currentUser.email}`

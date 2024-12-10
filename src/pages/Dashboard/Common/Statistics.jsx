@@ -3,7 +3,7 @@ import React from "react";
 const Statistics = () => {
   return (
     <div>
-      <h2>Welcome To Dashboard: Statistics Page</h2>
+      <h2 className="text-2xl font-bold">Welcome to Dashboard</h2>
     </div>
   );
 };

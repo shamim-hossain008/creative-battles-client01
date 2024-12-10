@@ -5,9 +5,27 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
-const CommentModal = ({ closeModal, isOpen, handleSubmit, id }) => {
+const CommentModal = ({ closeModal, isOpen, handleSubmit }) => {
+  const [comment, setComment] = useState("");
+
+  const handleClose = () => {
+    setComment("");
+    closeModal();
+  };
+
+  // Submit handler
+  const handleFormSubmit = () => {
+    if (!comment.trim()) {
+      alert("Comment is required!");
+      return;
+    }
+    handleSubmit(comment);
+    handleClose();
+  };
+
+  console.log(comment);
   return (
     <div>
       <Transition appear show={isOpen} as={Fragment}>
@@ -43,18 +61,21 @@ const CommentModal = ({ closeModal, isOpen, handleSubmit, id }) => {
                     Write your Comment !
                   </DialogTitle>
                   <div className="mt-2">
-                    <textarea name="text" id="#" cols="46" rows="5"></textarea>
+                    <textarea
+                      name="text"
+                      cols="46"
+                      rows="5"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      className="w-full border border-gray-300 rounded-md p-2"
+                    />
                   </div>
                   <hr className="mt-8 " />
                   <div className="flex mt-2 justify-around">
                     <button
-                      onClick={() => {
-                        handleSubmit(id);
-
-                        closeModal();
-                      }}
+                      onClick={handleFormSubmit}
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                     >
                       Submit
                     </button>

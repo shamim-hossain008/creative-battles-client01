@@ -13,20 +13,27 @@ const useAxiosSecure = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axiosSecure.interceptors.response.use(
+    const interceptor = axiosSecure.interceptors.response.use(
       (res) => {
         return res;
       },
       async (error) => {
         console.log("error tracked in the interceptor", error.response);
         if (error.response.status === 401 || error.response.status === 403) {
-          await logOut();
-          navigate("/login");
+          try {
+            await logOut();
+            navigate("/login", { replace: true });
+          } catch (logoutError) {
+            console.error("Error during logout", logoutError);
+          }
         }
 
         return Promise.reject(error);
       }
     );
+    return () => {
+      axiosSecure.interceptors.response.eject(interceptor); // Cleanup on unmount
+    };
   }, [logOut, navigate]);
 
   return axiosSecure;

@@ -8,9 +8,23 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
 // import required modules
+import { useQuery } from "@tanstack/react-query";
 import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import SpinnerLoader from "./SpinnerLoader";
 
 const BestContestCreator = () => {
+  const axiosPublic = useAxiosPublic();
+
+  const { data: allContest = [], isLoading } = useQuery({
+    queryKey: ["allContest"],
+    queryFn: async () => {
+      const { data } = await axiosPublic.get("/all-contest");
+      return data;
+    },
+  });
+
+  if (isLoading) return <SpinnerLoader />;
   return (
     <div className="p-4">
       <div className="text-center p-2">
@@ -78,33 +92,14 @@ const BestContestCreator = () => {
             modules={[EffectCoverflow, Pagination, Autoplay]}
             className="mySwiper"
           >
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-            </SwiperSlide>
+            {allContest.map((contest) => (
+              <SwiperSlide key={contest._id}>
+                <img
+                  className="w-96 h-96 p-2 overflow-hidden object-cover"
+                  src={contest.image}
+                />
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
       </div>

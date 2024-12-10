@@ -1,25 +1,14 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import CreatorContestTableRow from "../Dashboard/TableRow/CreatorContestTableRow";
 import SpinnerLoader from "../SpinnerLoader";
 
 const CreatorContest = () => {
   const { user } = useAuth();
-  console.log(user, "Current User");
 
   const axiosSecure = useAxiosSecure();
-  let [selectedContestId, setSelectedContestId] = useState(null);
-
-
-  // for delete Modal
-  let [isOpen, setIsOpen] = useState(false);
-  const closeModal = () => {
-    setIsOpen(false);
-  };
 
   // Update modal
 
@@ -39,24 +28,6 @@ const CreatorContest = () => {
   });
   // console.log(contests, " MyCreatedContest data");
   // delete contest
-  const deleteMutation = useMutation({
-    mutationFn: async (id) => {
-      const { data } = await axiosSecure.delete(`/my-created-contest/${id}`);
-      return data;
-    },
-    onSuccess: (data) => {
-      refetch(), toast.success("Your Contest has been deleted");
-    },
-  });
-
-  // handle Delete
-  const handleDelete = async (id) => {
-    try {
-      await deleteMutation.mutate(id);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   if (isLoading) return <SpinnerLoader />;
   return (
@@ -71,40 +42,11 @@ const CreatorContest = () => {
         </thead>
         <tbody>
           {contests.map((contest) => (
-            <tr key={contest._id}>
-              <td className="border px-4 py-2">{contest.contestName}</td>
-              <td className="border px-4 py-2 text-center text-red-400 ">
-                {contest.status === "confirmed" ? "Accepted" : "Pending.."}
-              </td>
-
-              <td className="border flex justify-between px-4 py-2 space-x-2">
-                <Link
-                  className="btn btn-primary"
-                  to={`dashboard/edit-contest/${contest?._id}`}
-                >
-                  Edit
-                </Link>
-
-                <>
-                  <button
-                    onClick={() => {
-                      setIsOpen(true);
-                      setSelectedContestId(contest._id);
-                    }}
-                    className="btn btn-error"
-                  >
-                    Delete
-                  </button>
-                </>
-
-                <Link
-                  to={`/dashboard/contest-submitted/${contest._id}`}
-                  className="btn bg-[#37C5BD]"
-                >
-                  See Submissions
-                </Link>
-              </td>
-            </tr>
+            <CreatorContestTableRow
+              key={contest._id}
+              contest={contest}
+              refetch={refetch}
+            />
           ))}
         </tbody>
       </table>

@@ -1,26 +1,28 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useRole from "../../hooks/useRole";
 import CommentModal from "../Dashboard/Modal/CommentModal";
 import DeleteModal from "../Dashboard/Modal/DeleteModal";
 import SpinnerLoader from "../SpinnerLoader";
 
 const AdminContest = () => {
+  const [role] = useRole();
+  console.log(role, "Current User");
   const { user } = useAuth();
-  console.log(user, "Current User");
 
   const axiosSecure = useAxiosSecure();
-  let [selectedContestId, setSelectedContestId] = useState(null);
+  const [selectedContestId, setSelectedContestId] = useState(null);
 
+  console.log("selectedContestId ", selectedContestId);
   // For comment modal
-  let [commentOpen, setCommentOpen] = useState(false);
+  const [commentOpen, setCommentOpen] = useState(false);
   const closeCommentModal = () => setCommentOpen(false);
 
   // for delete Modal
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -39,7 +41,7 @@ const AdminContest = () => {
       return data;
     },
   });
-  
+
   // delete contest
   const deleteMutation = useMutation({
     mutationFn: async (id) => {
@@ -62,11 +64,20 @@ const AdminContest = () => {
 
   // Comment Mutation
   const commentMutation = useMutation({
-    mutationFn: async ({ id, comment }) =>
-      await axiosSecure.post(`/contest-comment/${id}`, { comment }),
+    mutationFn: async ({ id, comment, admin }) =>
+      await axiosSecure.post(
+        `/contest-comment/${id}`,
+        { comment, admin }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        //   },
+        // }
+      ),
     onSuccess: () => {
       refetch();
-      toast.success("Comment added");
+      toast.success("Comment Added");
+
       closeCommentModal();
     },
   });
@@ -74,15 +85,30 @@ const AdminContest = () => {
   // handle Delete
   const handleDelete = async (id) => {
     try {
-      await deleteMutation.mutate(id);
+      await deleteMutation.mutateAsync(id);
     } catch (error) {
       console.error(error.message);
     }
   };
 
   const handleConfirm = (id) => confirmMutation.mutate(id);
-  const handleCommentSubmit = (comment) =>
-    commentMutation.mutate({ id: selectedContestId, comment });
+
+  const handleCommentSubmit = async (comment, admin) => {
+    if (!comment.trim()) {
+      toast.error("Comment is required");
+      return;
+    }
+    try {
+      await commentMutation.mutateAsync({
+        id: selectedContestId,
+        comment,
+        admin: user?.email,
+      });
+      toast.success("Comment added successfully");
+    } catch (error) {
+      console.error("Failed to add comment:", error);
+    }
+  };
 
   if (isLoading) return <SpinnerLoader />;
   return (
@@ -91,6 +117,7 @@ const AdminContest = () => {
         <thead>
           <tr className="bg-[#37C5BD]">
             <th className="border px-4 py-2">Contest Name</th>
+            <th className="border px-4 py-2">Category</th>
             <th className="border px-4 py-2">Status</th>
             <th className="border px-4 py-2">Actions</th>
           </tr>
@@ -99,17 +126,12 @@ const AdminContest = () => {
           {allContest.map((contest) => (
             <tr key={contest._id}>
               <td className="border px-4 py-2">{contest.contestName}</td>
+              <td className="border px-4 py-2">{contest.category}</td>
               <td className="border px-4 py-2 text-center text-red-400 ">
                 {contest.status === "confirmed" ? "Accepted" : "Pending.."}
               </td>
-              <td className="border flex justify-between px-4 py-2 space-x-2">
-                <Link
-                  className="btn btn-primary"
-                  to={`dashboard/edit-contest/${contest?._id}`}
-                >
-                  Edit
-                </Link>
 
+              <td className="border flex justify-between px-4 py-2 space-x-2">
                 <>
                   <button
                     onClick={() => {
@@ -136,13 +158,6 @@ const AdminContest = () => {
                     Comment
                   </button>
                 </>
-
-                <Link
-                  to={`/dashboard/contest-submitted/${contest._id}`}
-                  className="btn bg-[#37C5BD]"
-                >
-                  See Submissions
-                </Link>
               </td>
             </tr>
           ))}

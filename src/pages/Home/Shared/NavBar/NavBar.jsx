@@ -26,9 +26,7 @@ const NavBar = () => {
       <li>
         <NavLink to="/dashboard">Dashboard</NavLink>
       </li>
-      <li>
-        <NavLink to="/contest/:contestId/submit">Task Submission Form</NavLink>
-      </li>
+     
     </>
   );
 
