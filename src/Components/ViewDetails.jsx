@@ -3,6 +3,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate, useParams } from "react-router-dom";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import CountDown from "./CountDown/CountDown";
 import SpinnerLoader from "./SpinnerLoader";
 
 const ViewDetails = () => {
@@ -71,10 +72,10 @@ const ViewDetails = () => {
 
         <div className="mb-4">
           <h2 className="text-xl font-semibold">Time Left</h2>
-          <p>{/* Show a countdown timer */}</p>
-        </div>
 
-        <div className="mb-4 text-red-500">Contest is no longer available.</div>
+          {/* Show a countdown timer */}
+          <CountDown contest={contest} />
+        </div>
 
         <button
           onClick={handleRegister}

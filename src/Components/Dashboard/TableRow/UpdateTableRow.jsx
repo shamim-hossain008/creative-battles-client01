@@ -54,7 +54,7 @@ const UpdateTableRow = ({ user, refetch }) => {
       await mutateAsync(userRole);
     } catch (error) {
       toast.error(error.message);
-      console.log(error.message);
+      console.error(error.message);
     }
   };
 
@@ -72,7 +72,7 @@ const UpdateTableRow = ({ user, refetch }) => {
   // handle Delete
   const handleDelete = async (id) => {
     try {
-      await deleteMutation.mutate(id);
+      await deleteMutation.mutateAsync(id);
     } catch (error) {
       console.log(error.message);
     }

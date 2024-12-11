@@ -1,12 +1,18 @@
 import DatePicker from "react-datepicker";
-import useAuth from "../../hooks/useAuth";
 
-import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { ImSpinner9 } from "react-icons/im";
 
-const UpdateContestForm = ({ handleSubmit }) => {
- 
+const UpdateContestForm = ({
+  handleSubmit,
+  handleImage,
+  date,
+  setDate,
+  loading,
+  contestData,
+  setContestData,
+  refetch,
+}) => {
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
       <form onSubmit={handleSubmit}>
@@ -23,6 +29,13 @@ const UpdateContestForm = ({ handleSubmit }) => {
                 type="text"
                 placeholder="Contest Name"
                 required
+                value={contestData?.contestName}
+                onChange={(e) =>
+                  setContestData({
+                    ...contestData,
+                    contestName: e.target.value,
+                  })
+                }
               />
             </div>
 
@@ -34,6 +47,10 @@ const UpdateContestForm = ({ handleSubmit }) => {
                 required
                 className="w-full px-4 py-3 border-blue-300 focus:outline-blue-500 rounded-md"
                 name="category"
+                value={contestData?.category}
+                onChange={(e) =>
+                  setContestData({ ...contestData, category: e.target.value })
+                }
               >
                 <option disabled selected>
                   Image Design Contests
@@ -60,6 +77,10 @@ const UpdateContestForm = ({ handleSubmit }) => {
                 type="text"
                 placeholder="Contest Price"
                 required
+                value={contestData?.price}
+                onChange={(e) =>
+                  setContestData({ ...contestData, price: e.target.value })
+                }
               />
             </div>
 
@@ -70,13 +91,15 @@ const UpdateContestForm = ({ handleSubmit }) => {
                     <input
                       className="text-sm cursor-pointer w-36 hidden"
                       type="file"
-                      //   onChange={(e) => handleImage(e.target.files[0])}
+                      onChange={(e) => handleImage(e.target.files[0])}
                       name="image"
                       id="image"
                       accept="image/*"
                       hidden
                     />
-                    <div className="bg-blue-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-blue-500"> Upload Image
+                    <div className="bg-blue-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-blue-500">
+                      {" "}
+                      Upload Image
                       {/* {imageText.length > 20
                         ? imageText.split(".")[0].slice(0, 15) +
                           ".." +
@@ -103,6 +126,10 @@ const UpdateContestForm = ({ handleSubmit }) => {
                   type="text"
                   placeholder="Prize Money or Others"
                   required
+                  value={contestData?.prize}
+                  onChange={(e) =>
+                    setContestData({ ...contestData, prize: e.target.value })
+                  }
                 />
               </div>
 
@@ -112,8 +139,8 @@ const UpdateContestForm = ({ handleSubmit }) => {
                 </label>
                 <DatePicker
                   className="text-xl text-center"
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  selected={date}
+                  onChange={(date) => setDate(date)}
                   dateFormat={"dd/MM/yyy"}
                   minDate={new Date()}
                 />
@@ -130,6 +157,13 @@ const UpdateContestForm = ({ handleSubmit }) => {
                 id="instruction"
                 type="text"
                 required
+                value={contestData?.instruction}
+                onChange={(e) =>
+                  setContestData({
+                    ...contestData,
+                    instruction: e.target.value,
+                  })
+                }
               ></textarea>
             </div>
 
@@ -143,11 +177,17 @@ const UpdateContestForm = ({ handleSubmit }) => {
                 className="block rounded-md focus:blue-300 w-full h-32 px-4 py-3 text-gray-800  border border-blue-300 focus:outline-blue-500 "
                 name="description"
                 required
+                value={contestData?.description}
+                onChange={(e) =>
+                  setContestData({
+                    ...contestData,
+                    description: e.target.value,
+                  })
+                }
               ></textarea>
             </div>
           </div>
         </div>
-
         <button
           disabled={loading}
           type="submit"
@@ -156,7 +196,7 @@ const UpdateContestForm = ({ handleSubmit }) => {
           {loading ? (
             <ImSpinner9 className="animate-spin m-auto text-green-600" />
           ) : (
-            "Update"
+            "Update Now"
           )}
         </button>
       </form>

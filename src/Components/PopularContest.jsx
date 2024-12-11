@@ -9,7 +9,7 @@ const PopularContest = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  console.log(user, "from popular section");
+  // console.log(user, "from popular section");
 
   const { data: popularContest = [], isLoading } = useQuery({
     queryKey: ["popularContest"],
@@ -54,7 +54,6 @@ const PopularContest = () => {
                   } else {
                     navigate(`/contest/${contest._id}`);
                   }
-                  console.log(contest);
                 }}
               >
                 View Details

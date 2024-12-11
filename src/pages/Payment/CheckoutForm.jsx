@@ -27,7 +27,7 @@ const CheckoutForm = ({ price, contestId }) => {
   //   get client secret
   const getClientSecret = async (price) => {
     const { data } = await axiosSecure.post(`/create-payment-intent`, price);
-    console.log("clientSecret from server------>", data);
+    // console.log("clientSecret from server------>", data);
     setClientSecret(data.clientSecret);
   };
 

@@ -140,9 +140,7 @@ const AddContestForm = ({
                 required
               ></textarea>
             </div>
-            <div>
-              <Link to='/dashboard/submission-form'></Link>
-            </div>
+           
 
             <div className="space-y-1 text-sm">
               <label htmlFor="description" className="block text-gray-600">

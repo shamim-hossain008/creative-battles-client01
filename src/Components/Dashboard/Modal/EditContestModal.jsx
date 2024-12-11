@@ -6,23 +6,60 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { toast } from "react-hot-toast";
+import { imageUpload } from "../../../api/utils";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import UpdateContestForm from "../../Form/UpdateContestForm";
+
 const EditContestModal = ({ setIsEditModalOpen, isOpen, contest, refetch }) => {
   const [date, setDate] = useState(contest?.date);
-  const [imagePreview, setImagePreview] = useState();
-  const [imageText, setImageText] = useState("Upload Image");
   const [loading, setLoading] = useState();
   const [contestData, setContestData] = useState(contest);
+  const axiosSecure = useAxiosSecure();
 
   //   Date handler
   const handleDate = (item) => {
     setDate(item.selection);
   };
+  // HandleImage change
+  const handleImage = async (image) => {
+    setLoading(true);
+    try {
+      // upload image
+      const image_url = await imageUpload(image);
+      console.log(image_url);
+      setContestData({ ...contestData, image: image_url });
+      setLoading(false);
+    } catch (error) {
+      console.log(error.message);
+      setLoading(false);
+    }
+  };
 
   //
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
+    const updatedContestData = Object.assign({}, contestData);
+    delete updatedContestData._id;
+
+    // Fetch Contest
+    try {
+      const { data } = await axiosSecure.put(
+        `/contest/update/${contest?._id}`,
+        updatedContestData
+      );
+      console.log("from Update", data);
+      refetch();
+      setIsEditModalOpen(false);
+      setLoading(false);
+      toast.success("Contes Update Info Update done!!");
+    } catch (error) {
+      console.error("Error fetching users", error.message);
+      setLoading(false);
+    }
   };
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -64,11 +101,15 @@ const EditContestModal = ({ setIsEditModalOpen, isOpen, contest, refetch }) => {
                   {/* Update Contest Form */}
                   <UpdateContestForm
                     handleSubmit={handleSubmit}
-                    startDate={startDate}
-                    setStartDate={setStartDate}
+                    date={date}
+                    handleDate={handleDate}
+                    setDate={setDate}
                     loading={loading}
                     setLoading={setLoading}
                     contestData={contestData}
+                    setContestData={setContestData}
+                    handleImage={handleImage}
+                    refetch={refetch}
                   />
                 </div>
                 <hr className="mt-8 " />
