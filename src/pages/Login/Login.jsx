@@ -7,11 +7,11 @@ import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
-  const { signIn, googleLogin, setUser, loading, setLoading, resetPassword } =
+  const { signIn, googleSignIn, setUser, loading, setLoading, resetPassword } =
     useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state || "/";
+  const from = location.state?.from?.pathname || "/";
   const [email, setEmail] = useState();
 
   const handleLogin = (event) => {
@@ -24,30 +24,32 @@ const Login = () => {
 
     signIn(email, password)
       .then((res) => {
+        console.log("Success:", res);
         setUser(res.user);
         toast.success("User Login Successfully");
         navigate(from);
       })
       .catch((error) => {
+        console.error("Login error:", error.message);
         toast.error("Logged in failed.....!");
-        setLoading(false);
       });
+    setLoading(false);
   };
 
   // reset password
   const handleResetPassword = async () => {
     if (!email) return toast.error("Please write your email first");
     try {
+      setLoading(true);
       await resetPassword(email);
       toast.success(
         "Request Success! Check your email for further process...."
       );
-      setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error("Reset password error:", error.message);
       toast.error(error.message);
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   // const handleGoogleLogin = () => {

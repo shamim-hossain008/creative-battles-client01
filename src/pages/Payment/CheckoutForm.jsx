@@ -62,7 +62,7 @@ const CheckoutForm = ({ price, contestId }) => {
       setProcessing(false);
       return;
     } else {
-      console.log("[PaymentMethod]", paymentMethod);
+      // console.log("[PaymentMethod]", paymentMethod);
       setError("");
     }
 
@@ -78,13 +78,13 @@ const CheckoutForm = ({ price, contestId }) => {
         },
       });
     if (confirmError) {
-      console.log("confirmError", confirmError);
+      // console.log("confirmError", confirmError);
       setError(confirmError.message);
       setProcessing(false);
       return;
     }
     if (paymentIntent.status === "succeeded") {
-      console.log(paymentIntent);
+      // console.log(paymentIntent);
       //   create payment info object
       const paymentInfo = {
         user: {

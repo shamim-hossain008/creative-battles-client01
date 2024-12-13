@@ -61,28 +61,36 @@ const AuthProvider = ({ children }) => {
 
   // Get token form server
   const getToken = async (email) => {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/jwt`,
-      { email },
-      { withCredentials: true }
-    );
-    console.log(data, "JWT token received");
-    return data;
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/jwt`,
+        { email },
+        { withCredentials: true }
+      );
+      return data;
+    } catch (error) {
+      console.error("Error fetching token:", error);
+      throw error;
+    }
   };
 
   //save user
   const saveUser = async (user) => {
-    const currentUser = {
-      email: user?.email,
-      role: "user",
-      status: "Verified",
-    };
-    const { data } = await axios.put(
-      `${import.meta.env.VITE_BASE_URL}/user`,
-      currentUser
-    );
-    console.log(data, "User saved successfully");
-    return data;
+    try {
+      const currentUser = {
+        email: user?.email,
+        role: "user",
+        status: "Verified",
+      };
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/user`,
+        currentUser
+      );
+      return data;
+    } catch (error) {
+      console.error("Error saving user:", error);
+      throw error;
+    }
   };
 
   // onAuthStateChange
@@ -92,7 +100,7 @@ const AuthProvider = ({ children }) => {
         try {
           // Get the JWT token
           const res = await getToken(currentUser.email);
-          console.log("res from Auth", res);
+
           if (res) {
             localStorage.setItem("accessToken", res?.token);
           }

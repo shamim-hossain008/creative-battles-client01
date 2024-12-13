@@ -10,13 +10,12 @@ import SpinnerLoader from "../SpinnerLoader";
 
 const AdminContest = () => {
   const [role] = useRole();
-  console.log(role, "Current User");
+
   const { user } = useAuth();
 
   const axiosSecure = useAxiosSecure();
   const [selectedContestId, setSelectedContestId] = useState(null);
 
-  console.log("selectedContestId ", selectedContestId);
   // For comment modal
   const [commentOpen, setCommentOpen] = useState(false);
   const closeCommentModal = () => setCommentOpen(false);
@@ -76,7 +75,6 @@ const AdminContest = () => {
       ),
     onSuccess: () => {
       refetch();
-      toast.success("Comment Added");
 
       closeCommentModal();
     },

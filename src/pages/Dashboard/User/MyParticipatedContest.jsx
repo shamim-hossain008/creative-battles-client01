@@ -25,7 +25,6 @@ const MyParticipatedContest = () => {
     },
   });
 
-  console.log(participatedContest);
   if (isLoading) return <SpinnerLoader />;
 
   return (

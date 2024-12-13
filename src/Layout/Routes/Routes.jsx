@@ -18,7 +18,6 @@ import PaymentPage from "../../pages/Payment/PaymentPage";
 import SignUp from "../../pages/SignUp/SignUp";
 import Dashboard from "../Dashboard";
 import MainLayout from "../MainLayout";
-import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
@@ -45,7 +44,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/contest/:id",
-        element: <ViewDetails />,
+        element: (
+          <PrivateRoute>
+            <ViewDetails />,
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -82,11 +85,9 @@ export const router = createBrowserRouter([
       {
         path: "manage-user",
         element: (
-          <AdminRoute>
-            <PrivateRoute>
-              <ManageUser />
-            </PrivateRoute>
-          </AdminRoute>
+          <PrivateRoute>
+            <ManageUser />
+          </PrivateRoute>
         ),
       },
       {

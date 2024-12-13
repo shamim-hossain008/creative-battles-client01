@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
+import SubmittedTableRow from "../../../Components/Dashboard/TableRow/SubmittedTableRow";
 import SpinnerLoader from "../../../Components/SpinnerLoader";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
@@ -20,29 +21,23 @@ const ContestSubmitted = () => {
 
   // Fetch submissions for the contest
   const {
-    data: submissionResponse = {},
+    data: submissions = [],
     isLoading: loadingSubmissions,
     refetch,
+    error,
   } = useQuery({
-    queryKey: ["contest-submissions", contestId],
+    queryKey: ["contest-submissions"],
     queryFn: async () => {
       // Verify that contestId is a proper string before making the request
       if (!contestId) {
         throw new Error("Contest ID is missing or invalid");
       }
-      const { data } = await axiosSecure.get(
-        `/contest/${contestId}/submissions`
-      );
+      const { data } = await axiosSecure.get(`/contest-submissions`);
       return data;
     },
   });
 
-  // Extract submissions array from the response
-  const submissions = submissionResponse.data || [];
-
   if (loadingSubmissions) return <SpinnerLoader />;
-
-  console.log("Fetched submissions:", submissions);
 
   return (
     <div>
@@ -70,6 +65,7 @@ const ContestSubmitted = () => {
             <th className="border px-4 py-2">Participant Name</th>
             <th className="border px-4 py-2">Email</th>
             <th className="border px-4 py-2">Submitted Task</th>
+            <th className="border px-4 py-2">Contest Id</th>
             <th className="border px-4 py-2">Status</th>
             <th className="border px-4 py-2">Actions</th>
           </tr>
@@ -86,6 +82,7 @@ const ContestSubmitted = () => {
               <SubmittedTableRow
                 key={submission?._id}
                 submission={submission}
+                name={submission.user?.name}
                 refetch={refetch}
               />
             ))

@@ -25,7 +25,7 @@ const CommentModal = ({ closeModal, isOpen, handleSubmit }) => {
     handleClose();
   };
 
-  console.log(comment);
+  // console.log(comment);
   return (
     <div>
       <Transition appear show={isOpen} as={Fragment}>

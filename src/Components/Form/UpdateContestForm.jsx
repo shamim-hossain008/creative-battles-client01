@@ -1,3 +1,4 @@
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,6 +14,7 @@ const UpdateContestForm = ({
   setContestData,
   refetch,
 }) => {
+  const [imagePreview, setImagePreview] = useState();
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
       <form onSubmit={handleSubmit}>
@@ -98,19 +100,13 @@ const UpdateContestForm = ({
                       hidden
                     />
                     <div className="bg-blue-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-blue-500">
-                      {" "}
                       Upload Image
-                      {/* {imageText.length > 20
-                        ? imageText.split(".")[0].slice(0, 15) +
-                          ".." +
-                          imageText.split(".")[1]
-                        : imageText} */}
                     </div>
                   </label>
                 </div>
               </div>
               <div className="h-20 w-20 object-cover overflow-hidden flex items-center">
-                {/* {imagePreview && <img src={imagePreview} />} */}
+                {imagePreview && <img src={imagePreview} />}
               </div>
             </div>
 

@@ -23,7 +23,7 @@ const SignUp = () => {
   const onSubmit = (data) => {
     setLoading(true);
     createUser(data?.email, data?.password).then((res) => {
-      const loggedUser = res?.user;
+      const loggedUser = res.user;
       // console.log("logged user", loggedUser);
 
       updateUserProfile(data?.displayName, data?.photoURL).then((res) => {
@@ -33,17 +33,23 @@ const SignUp = () => {
           image: data?.photoURL,
           email: data?.email,
         };
-        axiosPublic.post("/users", userInfo).then((res) => {
-          if (res.data.insertedId) {
-            // console.log("user added to the database");
-            reset();
-            toast.success("User created successfully");
-            navigate("/");
-          } else {
-            toast.error("User created Failed");
-          }
-          setLoading(false);
-        });
+        axiosPublic
+          .post("/users", userInfo)
+          .then((res) => {
+            if (res.data.insertedId) {
+              toast.success("User created successfully");
+              reset();
+              navigate("/");
+            } else if (res.data.message === "User already exists") {
+              toast.error("User already exists");
+            } else {
+              toast.error("User creation failed");
+            }
+          })
+          .catch((error) => {
+            console.error("Error creating user:", error.message);
+            toast.error("Something went wrong");
+          });
       });
     });
   };
@@ -99,10 +105,10 @@ const SignUp = () => {
                   Name
                 </label>
                 <input
-                  {...register("name", { required: true })}
+                  {...register("displayName", { required: true })}
                   className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
                   type="text"
-                  name="name"
+                  name="displayName"
                 />
                 {errors.name && (
                   <span className="text-red-600">Name is required</span>

@@ -1,7 +1,35 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import img2 from "../assets/developers-1.png";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import SpinnerLoader from "./SpinnerLoader";
 
 const Advertises = () => {
+  const axiosPublic = useAxiosPublic();
+  // ..................
+  // Fetch submissions for the contest
+  const {
+    data: submissions = [],
+    isLoading,
+    refetch,
+    error,
+  } = useQuery({
+    queryKey: ["contest-submissions"],
+    queryFn: async () => {
+      const { data } = await axiosPublic.get(`/contest-submissions`);
+
+      return data;
+    },
+  });
+  console.log("submissions data", submissions);
+
+  if (isLoading) return <SpinnerLoader />;
+
+  // Check if submissions data is empty
+  if (submissions.length === 0) {
+    return <div>No submissions found.</div>;
+  }
+
   return (
     <>
       <div className="text-center p-4 ">
@@ -13,15 +41,27 @@ const Advertises = () => {
       <div className="divider mx-96"></div>
       <div className="flex-1 md:flex justify-around p-4">
         <div className="font-bold">
-          <h2 className="text-xl">Current Contest Winner:</h2>
-          <p>Name:</p>
-          <p>Winning Entry:</p>
-          <p>Prize:</p>
+          <h2 className="text-xl">Current Contest Winner</h2>
+          <p>Name:{submissions[0]?.user?.name}</p>
+          <p>
+            Winning Entry:
+            <a
+              href={submissions[0]?.taskLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Entry
+            </a>
+          </p>
+          <p>Prize:$5000</p>
           <div className="divider"></div>
           <h2 className="text-xl">Contest Statistics:</h2>
           <ul>
-            <li>Participants: 2,345</li>
-            <li>Total Contest Winners: 150</li>
+            <li>Participants: submissions.length</li>
+            <li>
+              Total Contest Winners:
+              {submissions.filter((sub) => sub.status === "Winner").length}
+            </li>
           </ul>
           <div className="divider"></div>
           <h2 className="text-xl"> Why Participate? </h2>
@@ -59,7 +99,7 @@ const Advertises = () => {
           </h3>
         </div>
         <div>
-          <img src={img2} alt="" />
+          <img src={img2} alt="Contest" />
         </div>
       </div>
     </>

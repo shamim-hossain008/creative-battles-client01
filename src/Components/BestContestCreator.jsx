@@ -95,7 +95,7 @@ const BestContestCreator = () => {
             {allContest.map((contest) => (
               <SwiperSlide key={contest._id}>
                 <img
-                  className="w-96 h-96 p-2 overflow-hidden object-cover"
+                  className="w-full h-96 mx-auto rounded-xl  overflow-hidden object-cover"
                   src={contest.image}
                 />
               </SwiperSlide>
