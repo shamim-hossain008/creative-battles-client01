@@ -9,7 +9,7 @@ import UserMenu from "../RoleMenu/UserMenu/UserMenu";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
-  const [role, isLoading] = useRole();
+  const [role, isLoading, loading, setLoading] = useRole();
 
   // for modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,7 +18,7 @@ const Sidebar = () => {
   };
 
   const modalHandler = async () => {
-    console.log("I want become a host");
+    // console.log("I want become a host");
     closeModal();
     try {
       const currentUser = {
@@ -27,14 +27,14 @@ const Sidebar = () => {
         status: "Requested",
       };
       const { data } = await axiosSecure.put(`/user`, currentUser);
-      console.log(data, "request to Admin for host");
+      // console.log(data, "request to Admin for host");
       if (data.modifiedCount > 0) {
         toast.success("Success! Please wait  for admin confirmation");
       } else {
         toast.success("Please!, Wait for admin Approval!!");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
     } finally {
       closeModal();
@@ -42,9 +42,11 @@ const Sidebar = () => {
   };
 
   const handleSignOut = () => {
+    setLoading(true);
     logOut()
       .then(() => {})
       .catch((error) => console.log(error.message));
+    setLoading(false);
   };
   return (
     <div className="flex flex-col justify-between  gap-4">

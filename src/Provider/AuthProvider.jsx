@@ -113,7 +113,7 @@ const AuthProvider = ({ children }) => {
           setUser({ ...currentUser, ...userData });
 
           // Optionally save the user to the backend if it’s a new user
-          saveUser(currentUser);
+          await saveUser(currentUser);
         } catch (error) {
           console.error("Error fetching user data or token:", error);
         }

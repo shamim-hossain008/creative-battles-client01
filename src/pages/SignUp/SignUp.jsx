@@ -33,6 +33,8 @@ const SignUp = () => {
           image: data?.photoURL,
           email: data?.email,
         };
+        console.log("Sending user info:", userInfo);
+
         axiosPublic
           .post("/users", userInfo)
           .then((res) => {

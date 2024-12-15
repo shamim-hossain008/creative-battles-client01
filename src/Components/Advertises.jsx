@@ -21,7 +21,6 @@ const Advertises = () => {
       return data;
     },
   });
-  console.log("submissions data", submissions);
 
   if (isLoading) return <SpinnerLoader />;
 
@@ -57,7 +56,7 @@ const Advertises = () => {
           <div className="divider"></div>
           <h2 className="text-xl">Contest Statistics:</h2>
           <ul>
-            <li>Participants: submissions.length</li>
+            <li>Participants: {submissions.length}</li>
             <li>
               Total Contest Winners:
               {submissions.filter((sub) => sub.status === "Winner").length}

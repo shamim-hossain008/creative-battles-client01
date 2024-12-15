@@ -7,7 +7,7 @@ import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
-  const { signIn, googleSignIn, setUser, loading, setLoading, resetPassword } =
+  const { signIn,  setUser, loading, setLoading, resetPassword } =
     useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
