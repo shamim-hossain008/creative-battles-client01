@@ -7,7 +7,7 @@ import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
-  const { signIn,  setUser, loading, setLoading, resetPassword } =
+  const { signIn, setUser, loading, setLoading, resetPassword } =
     useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +24,7 @@ const Login = () => {
 
     signIn(email, password)
       .then((res) => {
-        console.log("Success:", res);
+        // console.log("Success:", res);
         setUser(res.user);
         toast.success("User Login Successfully");
         navigate(from);

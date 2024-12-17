@@ -2,16 +2,14 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { SiBattledotnet } from "react-icons/si";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../../../hooks/useAuth";
-import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
-  const axiosSecure = useAxiosSecure();
 
   const handleSignOut = () => {
     logOut()
       .then(() => {})
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.error(error.message));
   };
 
   const navLinks = (
@@ -26,7 +24,6 @@ const NavBar = () => {
       <li>
         <NavLink to="/dashboard">Dashboard</NavLink>
       </li>
-     
     </>
   );
 

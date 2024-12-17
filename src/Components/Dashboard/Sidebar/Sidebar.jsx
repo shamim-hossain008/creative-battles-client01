@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useRole from "../../../hooks/useRole";
 import HostModal from "../Modal/HostModal";
 import AdminMenu from "../RoleMenu/AdminMenu/AdminMenu";
@@ -8,8 +10,9 @@ import CreatorMenu from "../RoleMenu/CreatorMenu/CreatorMenu";
 import UserMenu from "../RoleMenu/UserMenu/UserMenu";
 
 const Sidebar = () => {
-  const { logOut } = useAuth();
-  const [role, isLoading, loading, setLoading] = useRole();
+  const { logOut, user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const [role, loading, setLoading] = useRole();
 
   // for modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,7 +34,7 @@ const Sidebar = () => {
       if (data.modifiedCount > 0) {
         toast.success("Success! Please wait  for admin confirmation");
       } else {
-        toast.success("Please!, Wait for admin Approval!!");
+        toast.success("Please! Wait for admin Approval!!");
       }
     } catch (error) {
       // console.log(error);
@@ -42,26 +45,22 @@ const Sidebar = () => {
   };
 
   const handleSignOut = () => {
-    setLoading(true);
     logOut()
       .then(() => {})
-      .catch((error) => console.log(error.message));
-    setLoading(false);
+      .catch((error) => console.error(error.message));
   };
   return (
     <div className="flex flex-col justify-between  gap-4">
       <div>
         <ul className="menu">
           {/* User Dashboard */}
-          {/* {role === "user" && <UserMenu />} */}
-          <UserMenu />
+          {role === "user" && <UserMenu />}
+
           {/* Contest Creator */}
-          {/* {role === "creator" && <CreatorMenu />} */}
-          <CreatorMenu />
+          {role === "creator" && <CreatorMenu />}
 
           {/* Admin Dashboard */}
-          {/* {role === "admin" && <AdminMenu />} */}
-          <AdminMenu />
+          {role === "admin" && <AdminMenu />}
         </ul>
       </div>
 

@@ -20,40 +20,34 @@ const SignUp = () => {
   const { createUser, updateUserProfile, loading, setLoading } = useAuth();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    setLoading(true);
-    createUser(data?.email, data?.password).then((res) => {
-      const loggedUser = res.user;
-      // console.log("logged user", loggedUser);
-
-      updateUserProfile(data?.displayName, data?.photoURL).then((res) => {
-        // create user entry in the data base
-        const userInfo = {
-          name: data?.displayName,
-          image: data?.photoURL,
-          email: data?.email,
-        };
-        console.log("Sending user info:", userInfo);
-
-        axiosPublic
-          .post("/users", userInfo)
-          .then((res) => {
-            if (res.data.insertedId) {
-              toast.success("User created successfully");
-              reset();
-              navigate("/");
-            } else if (res.data.message === "User already exists") {
-              toast.error("User already exists");
-            } else {
-              toast.error("User creation failed");
-            }
-          })
-          .catch((error) => {
-            console.error("Error creating user:", error.message);
-            toast.error("Something went wrong");
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      const userInfo = {
+        name: data?.displayName,
+        image: data?.photoURL,
+        email: data?.email,
+      };
+      axiosPublic.post("/users", userInfo).then((res) => {
+        if (res.data.insertedId) {
+          createUser(data.email, data.password).then((res) => {
+            updateUserProfile(userInfo.name, data.photoURL).then((res) => {});
           });
+
+          reset();
+          toast.success(res.data.message);
+          navigate("/");
+        } else {
+          toast.error(res.data.message);
+        }
       });
-    });
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

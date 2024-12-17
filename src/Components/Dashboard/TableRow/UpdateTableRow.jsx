@@ -13,8 +13,8 @@ const UpdateTableRow = ({ user, refetch }) => {
 
   const axiosSecure = useAxiosSecure();
   // for delete Modal
-  let [isOpen, setIsOpen] = useState(false);
-  let [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -41,14 +41,14 @@ const UpdateTableRow = ({ user, refetch }) => {
   });
 
   // modal handler
-  const modalHandler = async (selected) => {
+  const modalHandler = async (payload) => {
     if (loggedInUser.email === user.email) {
       toast.error("Action Not Allowed");
       return setIsModalOpen(false);
     }
     const userRole = {
-      role: selected,
-      status: "Accepted",
+      role: payload,
+      status: "accepted",
     };
     try {
       await mutateAsync(userRole);
@@ -74,7 +74,7 @@ const UpdateTableRow = ({ user, refetch }) => {
     try {
       await deleteMutation.mutateAsync(id);
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   };
 
@@ -85,7 +85,7 @@ const UpdateTableRow = ({ user, refetch }) => {
       <td className="border px-4 py-2 text-center">{user?.role}</td>
 
       <td class="px-12 py-4 text-sm text-center font-medium whitespace-nowrap">
-        <div className="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100">
+        <div className="inline capitalize px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100">
           {user?.status}
         </div>
       </td>
