@@ -18,6 +18,8 @@ import PaymentPage from "../../pages/Payment/PaymentPage";
 import SignUp from "../../pages/SignUp/SignUp";
 import Dashboard from "../Dashboard";
 import MainLayout from "../MainLayout";
+import AdminRoute from "./AdminRoute";
+import CreatorRoute from "./CreatorRoute";
 import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
@@ -86,7 +88,9 @@ export const router = createBrowserRouter([
         path: "manage-user",
         element: (
           <PrivateRoute>
-            <ManageUser />
+            <AdminRoute>
+              <ManageUser />
+            </AdminRoute>
           </PrivateRoute>
         ),
       },
@@ -98,7 +102,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-contest",
-        element: <AddContest />,
+
+        element: (
+          <PrivateRoute>
+            <CreatorRoute>
+              <AddContest />
+            </CreatorRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-created-contest",
